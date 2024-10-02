@@ -58,15 +58,27 @@ android {
 
 }
 
-//
+//pythonで追加S-------------------------------------------------------------------------------
 chaquopy{
     defaultConfig {
-        buildPython("C:/Python/python3")
+        //buildPython("C:/Python/python3")
+        //buildPython("C:/Users/tamago/AppData/Local/Microsoft/WindowsApps/python3")
         //インストールしたPythonのパス
+
+        pip {
+            // numpyをインストールする
+            install("numpy")
+            // pandasをインストールする
+            install("pandas")
+            /* requirements.txtを指定することも可能
+            install("-r", "requirements.txt")
+            */
+        }
     }
     productFlavors{}
     sourceSets{}
-}//追加
+}
+//pythonで追加E-------------------------------------------------------------------------------
 
 
 dependencies {

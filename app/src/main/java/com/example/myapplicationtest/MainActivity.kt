@@ -29,12 +29,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        //追加-------------------------------------------------------------
         val py = getInstance()
         val module = py.getModule("hello")
         val txt1 = module.callAttr("hello_world")
         val txt2 = module.callAttr("set_text", "Good Morning")
-        println(txt1)
-        println(txt2)
+        println(txt1)   // logに出力。Logcatに出力される
+        println(txt2)   // logに出力。Logcatに出力される
+
+        val num1 = module.callAttr("test_numpy")
+        val num2 = module.callAttr("test_pandas")
+        println(num1)
+        println(num2)
+        //追加-------------------------------------------------------------
     }
 }
 
