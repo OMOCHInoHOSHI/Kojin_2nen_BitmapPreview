@@ -6,9 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.chaquo.python.Python
@@ -29,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        //追加-------------------------------------------------------------
+        //python追加-------------------------------------------------------------
         val py = getInstance()
         val module = py.getModule("hello")
         val txt1 = module.callAttr("hello_world")
@@ -46,17 +51,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun Greeting(name: String,
+             onClick: () -> Unit = {},
+             modifier: Modifier = Modifier) {
+
+    //ボタンコンポーザー
+    //ボタンを押すとテキストを表示S---------------------
+    Button(onClick = onClick) {
+        //テキストを表示
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+    }
+    //ボタンを押すとテキストを表示E---------------------
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApplicationTestTheme {
-        Greeting("Android")
+        var str by remember { mutableStateOf("あんどろ") }
+        Greeting(str, onClick = {str = "ボタンがタップされました"})
     }
 }
