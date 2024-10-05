@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -26,11 +27,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTestTheme {
+                //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+//                    Greeting(
+//                        name = "Android",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+                    var str by remember { mutableStateOf("あんどろ") }
+                    Box {
+                        Greeting(
+                            str, onClick = {str = "ボタンがタップされました"},
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
         }
@@ -67,11 +76,16 @@ fun Greeting(name: String,
     //ボタンを押すとテキストを表示E---------------------
 }
 
+
+//プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApplicationTestTheme {
         var str by remember { mutableStateOf("あんどろ") }
-        Greeting(str, onClick = {str = "ボタンがタップされました"})
+        Box {
+            Greeting(str, onClick = {str = "ボタンがタップされました"})
+        }
+
     }
 }
