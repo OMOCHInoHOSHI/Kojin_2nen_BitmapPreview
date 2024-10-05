@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -24,20 +25,21 @@ import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()    //スマホの端を無くす
         setContent {
             MyApplicationTestTheme {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
 //                    Greeting(
 //                        name = "Android",
 //                        modifier = Modifier.padding(innerPadding)
 //                    )
+
                     var str by remember { mutableStateOf("あんどろ") }
                     Box {
                         Greeting(
                             str, onClick = {str = "ボタンがタップされました"},
-                            modifier = Modifier.padding(innerPadding)
+                            //modifier = Modifier.padding(innerPadding)
                         )
                     }
                 }
