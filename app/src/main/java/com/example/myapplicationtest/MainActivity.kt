@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     Box {
                         Greeting(
                             str, onClick = {str = "ボタンがタップされました"},
-                            //modifier = Modifier.padding(innerPadding)
+                            modifier = Modifier.padding(innerPadding)   //余白
                         )
                     }
                 }
