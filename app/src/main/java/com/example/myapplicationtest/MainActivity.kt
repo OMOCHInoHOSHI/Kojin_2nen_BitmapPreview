@@ -40,6 +40,8 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(innerPadding)   //余白
                         )
                     }
+                    //カメラ権限呼び出し
+                    CameraScreen()
                 }
             }
         }
