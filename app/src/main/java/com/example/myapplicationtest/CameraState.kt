@@ -5,6 +5,10 @@ import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
@@ -55,4 +59,29 @@ data class CameraState (
         //完成したビューをリターンで戻す
         return  previewView
     }
+}
+
+//UI構築の際に、カメラ関連の状態を管理するための関数
+
+@Composable
+fun remenbreCameraState(
+    //カメラで使用するコンテキストを取得
+    context: Context = LocalContext.current,
+    //現在のプロセスに関連するプロセスカメラプロバイダのインスタンスを取得    //実際のカメラの処理
+    caemraProviderFuture: ListenableFuture<ProcessCameraProvider> =
+        ProcessCameraProvider.getInstance(context),
+    //現在のライフサイクルオーナー
+    //プレビューとイメージキャプチャのユースケースをカメラにバインドする時に使用 ライフサイクル管理をカメラが管理
+    LifeCycleOwne: LifecycleOwner  = LocalLifecycleOwner.current,       //見本と少し違う変数名(?)
+    //高解像度かつ高品質の写真をキャプチャできるカメラのコンポーネント
+    imageCapture: ImageCapture = ImageCapture.Builder().build()
+    //リメンバーを使い、CameraStateインスタンスをComposable関数内で状態を保持し利用できる
+) = remember(context, caemraProviderFuture, LifeCycleOwne){
+    //引数はキーになっている　変更があった場合はキャッシュを削除し、新たに作成
+    CameraState(
+        context = context,
+        cameraProviderFuture = caemraProviderFuture,
+        LifeCycleOwne  = LifeCycleOwne,
+        imageCapture = imageCapture
+    )
 }
