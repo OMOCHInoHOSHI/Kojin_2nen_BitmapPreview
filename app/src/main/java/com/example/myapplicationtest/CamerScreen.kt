@@ -29,10 +29,13 @@ fun CameraScreen(){
             PreviewCamera { ctx ->
                 cameraState.startCamera(ctx)
             }
+            //撮影用のボタンを配置
+            TakePhoto {
+                cameraState.takePhoto()
+            }
         }
     }else{
         Text(text = "カメラの権限がありません")
         println("カメラの権限が取得がありません")
     }
-
 }
