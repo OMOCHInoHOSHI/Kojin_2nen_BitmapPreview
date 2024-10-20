@@ -140,7 +140,6 @@ data class CameraState (
 }
 
 //UI構築の際に、カメラ関連の状態を管理するための関数
-
 @Composable
 fun remenbreCameraState(
     //カメラで使用するコンテキストを取得
