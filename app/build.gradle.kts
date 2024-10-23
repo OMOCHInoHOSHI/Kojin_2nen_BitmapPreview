@@ -73,6 +73,10 @@ chaquopy{
             /* requirements.txtを指定することも可能
             install("-r", "requirements.txt")
             */
+
+            install("yolov10")
+            install("ultralytics")
+            install("ultralytics-thop")
         }
     }
     productFlavors{}

@@ -82,6 +82,9 @@ class MainActivity : ComponentActivity() {
         val num2 = module.callAttr("test_pandas")
         println(num1)
         println(num2)
+
+        val tex3 = module.callAttr("hellow_yolo")
+        println(tex3)
         //追加-------------------------------------------------------------
     }
 }
