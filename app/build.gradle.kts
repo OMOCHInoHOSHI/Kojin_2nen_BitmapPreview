@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.AaptOptions
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -10,6 +12,8 @@ android {
     compileSdk = 34
     //
     flavorDimensions += "pyVersyon"//追加
+
+ androidResources
 
     defaultConfig {
         //
@@ -101,6 +105,12 @@ dependencies {
     implementation("androidx.compose.material:material-icons-core:1.7.4")
     implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
     //アイコン関係E----------------------------------------------------------------------
+
+    //tensorflow-lite関係S----------------------------------------------------------
+    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
+    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
+    //tensorflow-lite関係E----------------------------------------------------------
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
