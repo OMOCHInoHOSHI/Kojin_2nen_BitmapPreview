@@ -50,6 +50,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
+                    //カメラ起動S------------------------------------------------------------
                     var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
                     FilledTonalButton(
                         onClick = { flg = 1 },
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
                         //カメラ権限呼び出し
                         CameraScreen()
                     }
+                    //カメラ起動E------------------------------------------------------------
 
                 }
             }
