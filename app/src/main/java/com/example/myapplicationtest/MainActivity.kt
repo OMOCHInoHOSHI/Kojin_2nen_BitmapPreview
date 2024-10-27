@@ -28,10 +28,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+        lateinit var photoPickerHelper: PhotoPickerHelper
+
+            super.onCreate(savedInstanceState)
+            photoPickerHelper = PhotoPickerHelper(this, 1) // PhotoPickerHelperの初期化
+
+//            setContent {
+//                // ボタンを押すと写真選択が起動するようにする
+//                PhotoPicker { photoPickerHelper.selectPhoto() }
+//            }
+
+//        super.onCreate(savedInstanceState)
         //enableEdgeToEdge()    //スマホの端を無くす
         setContent {
             MyApplicationTestTheme {
@@ -64,8 +80,9 @@ class MainActivity : ComponentActivity() {
                         //Text(text = "カメラ起動")
                     }
                     if(flg == 1){
+                        PhotoPicker { photoPickerHelper.selectPhoto() }
                         //カメラ権限呼び出し
-                        CameraScreen()
+//                        CameraScreen()
                     }
                     //カメラ起動E------------------------------------------------------------
 
@@ -108,6 +125,12 @@ fun Greeting(name: String,
     //ボタンを押すとテキストを表示E---------------------
 }
 
+@Composable
+fun PhotoPicker(onPickPhoto: () -> Unit) {
+    Button(onClick = { onPickPhoto() }) {
+        Text(text = "写真を選択")
+    }
+}
 
 //プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)

@@ -97,6 +97,8 @@ chaquopy{
 
 
 dependencies {
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.appcompat)
     //カメラライブラリS---------------------------------------------------------
     val cameraxVersion = "1.3.4"    //変数
     implementation("androidx.camera:camera-core:${cameraxVersion}")
@@ -113,11 +115,16 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
     //アイコン関係E----------------------------------------------------------------------
 
-    //tensorflow-lite関係S----------------------------------------------------------
-    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
-    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
-    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
-    //tensorflow-lite関係E----------------------------------------------------------
+//    //tensorflow-lite関係S----------------------------------------------------------
+//    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
+//    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
+//    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
+//    //tensorflow-lite関係E----------------------------------------------------------
+
+    //registerForActivityResultを使うS--------------------------------------------------
+    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha03")
+    //registerForActivityResultを使うE--------------------------------------------------
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
