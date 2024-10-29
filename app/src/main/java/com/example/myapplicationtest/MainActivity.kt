@@ -1,7 +1,10 @@
 package com.example.myapplicationtest
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,25 +32,17 @@ import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        lateinit var photoPickerHelper: PhotoPickerHelper
-
-            super.onCreate(savedInstanceState)
-            photoPickerHelper = PhotoPickerHelper(this, 1) // PhotoPickerHelperの初期化
-
-//            setContent {
-//                // ボタンを押すと写真選択が起動するようにする
-//                PhotoPicker { photoPickerHelper.selectPhoto() }
-//            }
-
-//        super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         //enableEdgeToEdge()    //スマホの端を無くす
         setContent {
             MyApplicationTestTheme {
@@ -80,7 +75,14 @@ class MainActivity : ComponentActivity() {
                         //Text(text = "カメラ起動")
                     }
                     if(flg == 1){
-                        PhotoPicker { photoPickerHelper.selectPhoto() }
+//                        PhotoPicker { photoPickerHelper.selectPhoto() }
+                        Content(
+                            //何も選択しない場合
+                            onNothingSelected = {
+                                // Handle nothing selected, e.g., show a message or log an event
+                                Log.d("MainActivity", "No image selected")
+                            }
+                        )
                         //カメラ権限呼び出し
 //                        CameraScreen()
                     }
@@ -105,6 +107,28 @@ class MainActivity : ComponentActivity() {
         val tex3 = module.callAttr("hellow_yolo")
         println(tex3)
         //追加-------------------------------------------------------------
+    }
+}
+
+@Composable
+fun Content(
+    onNothingSelected: () -> Unit
+) {
+    //初期値に空のURI
+    var pickedImageUri by remember { mutableStateOf(Uri.EMPTY) }
+    val launcher = rememberLauncherForActivityResult(
+        //像選択のインテントを起動するための ActivityResultLauncher を作成
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->    //Uri?はヌル許容型
+        uri?.let {
+            //pickedImageUriに選択された画像のuriを代入
+            pickedImageUri = it
+        } ?: onNothingSelected()    //uriがnull
+    }
+    //ライフサイクル   //Composeが最初に組み込まれたときに実行
+    LaunchedEffect(true) {
+        //1つの画像を選択
+        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 }
 
