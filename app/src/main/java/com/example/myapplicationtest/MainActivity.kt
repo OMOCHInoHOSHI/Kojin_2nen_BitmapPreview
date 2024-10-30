@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                         //Text(text = "カメラ起動")
                     }
                     if(flg == 1){
-//                        PhotoPicker { photoPickerHelper.selectPhoto() }
+                        //フォルダから写真を選択するS---------------------------------------------------------
                         Content(
                             //何も選択しない場合
                             onNothingSelected = {
@@ -83,6 +83,8 @@ class MainActivity : ComponentActivity() {
                                 Log.d("MainActivity", "No image selected")
                             }
                         )
+                        //フォルダから写真を選択するE---------------------------------------------------------
+
                         //カメラ権限呼び出し
 //                        CameraScreen()
                     }
@@ -155,6 +157,8 @@ fun PhotoPicker(onPickPhoto: () -> Unit) {
         Text(text = "写真を選択")
     }
 }
+
+
 
 //プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)

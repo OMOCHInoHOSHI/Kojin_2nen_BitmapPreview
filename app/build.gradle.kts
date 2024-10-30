@@ -126,6 +126,7 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha03")
     //registerForActivityResultを使うE--------------------------------------------------
 
+    //PhotoPicker用で追加
     implementation("androidx.activity:activity-ktx:1.9.3")
 
     implementation(libs.androidx.core.ktx)
