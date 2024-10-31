@@ -97,7 +97,7 @@ class MainActivity : ComponentActivity() {
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
 
                         //カメラ権限呼び出し
-//                        CameraScreen()
+                        //CameraScreen()
                     }
                     //カメラ起動E------------------------------------------------------------
 
@@ -117,8 +117,8 @@ class MainActivity : ComponentActivity() {
         println(num1)
         println(num2)
 
-        val tex3 = module.callAttr("hellow_yolo")
-        println(tex3)
+//        val tex3 = module.callAttr("hellow_yolo")
+//        println(tex3)
         //追加-------------------------------------------------------------
     }
 }

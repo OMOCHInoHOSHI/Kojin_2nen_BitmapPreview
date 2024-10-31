@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream
 
 //拡張関数　//クラスを新しい機能で拡張
 //Bitmapを返却
-@Composable
+
 fun Uri.getBitmapOrNull(contentResolver: ContentResolver): Bitmap? {
     return kotlin.runCatching {
         //Build.VERSION.SDK_INTでAPIレベルを取得   //Build.VERSION_CODES.QはAPIレベル29(Android10)
