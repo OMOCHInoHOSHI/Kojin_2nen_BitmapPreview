@@ -15,6 +15,9 @@ def test_numpy():
 def test_pandas():
     return pd.Series([1,2,3,4,5])
 
+def hellow_yolo():
+    return "yolo"
+
 # # -*- coding: utf-8 -*-
 #
 # from ultralytics import YOLO
@@ -38,5 +41,34 @@ def test_pandas():
 #
 # print(people_nom())
 
-def hellow_yolo():
-    return "yolo"
+# -*- coding: utf-8 -*-
+from ultralytics import YOLO
+import numpy as np
+import cv2
+import base64
+from io import BytesIO
+from PIL import Image
+
+# YOLOモデルのロード
+model = YOLO("yolov10s.pt")
+
+def people_count_and_image(image_bytes):
+    # ByteArrayから画像データを読み込む
+    nparr = np.frombuffer(image_bytes, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    # 画像の予測
+    results = model(img)
+    
+    # 検出された人の数を取得
+    people_count = sum(1 for box in results[0].boxes if box.cls == 0)  # クラス0が「人」を意味すると仮定
+
+    # 検出結果を画像に描画
+    annotated_image = results[0].plot()  # YOLOが提供する描画機能で注釈付き画像を生成
+
+    # 画像をJPEG形式のバイト配列にエンコード
+    _, buffer = cv2.imencode('.jpg', annotated_image)
+    result_image_bytes = base64.b64encode(buffer).decode('utf-8')
+
+    # 人数と結果画像を返す
+    return people_count, result_image_bytes

@@ -1,5 +1,7 @@
 package com.example.myapplicationtest
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -41,9 +43,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()    //スマホの端を無くす
+
+        // ContentResolverを取得
+        val content_Resolver = contentResolver
         setContent {
             MyApplicationTestTheme {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
@@ -76,14 +82,19 @@ class MainActivity : ComponentActivity() {
                     }
                     if(flg == 1){
                         //フォルダから写真を選択するS---------------------------------------------------------
-                        Content(
-                            //何も選択しない場合
-                            onNothingSelected = {
-                                // Handle nothing selected, e.g., show a message or log an event
-                                Log.d("MainActivity", "No image selected")
-                            }
-                        )
+                        //uri_getに取得したuriを格納する
+                        var uri_get by remember { mutableStateOf(Uri.EMPTY) }
+                        uri_get=
+                            content(
+                                //何も選択しない場合
+                                onNothingSelected = {
+                                    // Handle nothing selected, e.g., show a message or log an event
+                                    Log.d("MainActivity", "No image selected")
+                                }
+                            )
                         //フォルダから写真を選択するE---------------------------------------------------------
+                        //取得したUriをBitmapに変換
+                        val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
 
                         //カメラ権限呼び出し
 //                        CameraScreen()
@@ -113,9 +124,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Content(
+fun content(
     onNothingSelected: () -> Unit
-) {
+):Uri?{
     //初期値に空のURI
     var pickedImageUri by remember { mutableStateOf(Uri.EMPTY) }
     val launcher = rememberLauncherForActivityResult(
@@ -132,6 +143,7 @@ fun Content(
         //1つの画像を選択
         launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
+    return pickedImageUri
 }
 
 @Composable

@@ -88,6 +88,10 @@ chaquopy{
             install("yolov10")
             install("ultralytics")
             install("ultralytics-thop")
+
+            install("cv2")
+            install("base64")
+            install("Pillow")
         }
     }
     productFlavors{}
