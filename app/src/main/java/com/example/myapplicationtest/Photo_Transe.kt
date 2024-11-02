@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.LinkAnnotation
+//import androidx.compose.ui.text.LinkAnnotation
 import com.chaquo.python.Python
 import java.io.ByteArrayOutputStream
 

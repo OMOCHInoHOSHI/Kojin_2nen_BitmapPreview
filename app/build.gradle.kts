@@ -10,10 +10,15 @@ plugins {
 android {
     namespace = "com.example.myapplicationtest"
     compileSdk = 34
-    //
-    flavorDimensions += "pyVersyon"//追加
 
- androidResources
+    // Pytnonにより追加
+    flavorDimensions += "pyVersion"
+    productFlavors{
+        create("py38"){dimension = "pyVersion"}
+    }
+
+
+    androidResources
 
     defaultConfig {
         //
@@ -21,7 +26,7 @@ android {
             abiFilters += listOf("arm64-v8a","x86_64")
         }//追加
         applicationId = "com.example.myapplicationtest"
-        minSdk = 34
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -85,13 +90,13 @@ chaquopy{
             install("-r", "requirements.txt")
             */
 
-            install("yolov10")
-            install("ultralytics")
-            install("ultralytics-thop")
+            //install("yolov10")
+            //install("ultralytics")
+            //install("ultralytics-thop")
 
-            install("cv2")
-            install("base64")
-            install("Pillow")
+//            install("cv2")
+//            install("base64")
+//            install("Pillow")
         }
     }
     productFlavors{}
@@ -114,9 +119,10 @@ dependencies {
     //カメラライブラリE---------------------------------------------------------
 
     //アイコン関係S----------------------------------------------------------------------
-    implementation ("androidx.compose.material3:material3:1.3.0")
-    implementation("androidx.compose.material:material-icons-core:1.7.4")
+    //implementation ("androidx.compose.material3:material3:1.3.0")
+    //implementation("androidx.compose.material:material-icons-core:1.7.4")
     implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
+    //implementation("androidx.compose.material:material-icons-extended-android:1.7.5")
     //アイコン関係E----------------------------------------------------------------------
 
 //    //tensorflow-lite関係S----------------------------------------------------------
