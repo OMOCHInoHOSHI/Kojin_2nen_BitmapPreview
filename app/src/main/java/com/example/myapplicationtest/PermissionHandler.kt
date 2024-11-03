@@ -1,5 +1,8 @@
 package com.example.myapplicationtest
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -7,32 +10,60 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 
 @Composable
 fun PermissionHand(
-    onGranted:(Boolean) -> Unit,    //onGrantedがTureならカメラ許可
-){
-    //コンポーザー内のアクティビティの結果を取得できる
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ){granted ->
-        onGranted(granted)
-    }
-
-    //カメラの権限が許可されてるかの確認
+    onGranted: (Boolean) -> Unit    // onGrantedがTrueならカメラとストレージの許可
+) {
     val context = LocalContext.current
-    if(androidx.core.content.ContextCompat.checkSelfPermission(
-        context,
-        android.Manifest.permission.CAMERA
-        )==android.content.pm.PackageManager.PERMISSION_GRANTED
-        ){
-        onGranted(true) //許可されている
-    }else{
-        //ランチャーマニフェストパーミッションカメラを呼び出し、ユーザーにカメラの権限を要求
-        SideEffect {    //UI
-            launcher.launch(android.Manifest.permission.CAMERA)
-        }
 
+    // ランチャーの作成: 必要に応じて複数パーミッションのリクエスト
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        // 許可状態を確認
+        val allGranted = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            permissions[Manifest.permission.CAMERA] == true &&
+                    permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true
+        } else {
+            permissions[Manifest.permission.CAMERA] == true
+        }
+        onGranted(allGranted)
     }
 
+    // カメラの権限確認
+    val cameraGranted = ContextCompat.checkSelfPermission(
+        context, Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
+
+    // ストレージの権限確認（API 33未満のみ）
+    val storageGranted = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        ContextCompat.checkSelfPermission(
+            context, Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    } else {
+        true
+    }
+
+    // パーミッションの状態を確認
+    if (cameraGranted && storageGranted) {
+        onGranted(true)  // すでに許可されている
+    } else {
+        // リクエストするパーミッションを API レベルに応じて変更
+        SideEffect {
+            launcher.launch(
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    arrayOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                } else {
+                    arrayOf(
+                        Manifest.permission.CAMERA
+                    )
+                }
+            )
+        }
+    }
 }

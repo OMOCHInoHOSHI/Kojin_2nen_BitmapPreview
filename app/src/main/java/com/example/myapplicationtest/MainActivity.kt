@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -95,9 +96,11 @@ class MainActivity : ComponentActivity() {
                         //フォルダから写真を選択するE---------------------------------------------------------
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
-
+                        println(bitmap)
                         //カメラ権限呼び出し
                         //CameraScreen()
+
+                        //flg = 0
                     }
                     //カメラ起動E------------------------------------------------------------
 
@@ -136,6 +139,8 @@ fun content(
         uri?.let {
             //pickedImageUriに選択された画像のuriを代入
             pickedImageUri = it
+            Log.d("MainActivity", "image selected")
+            println("URIゲット")
         } ?: onNothingSelected()    //uriがnull
     }
     //ライフサイクル   //Composeが最初に組み込まれたときに実行
