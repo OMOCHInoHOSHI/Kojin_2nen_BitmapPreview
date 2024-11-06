@@ -1,5 +1,6 @@
 package com.example.myapplicationtest
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -42,6 +43,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import android.content.res.AssetManager
 
 class MainActivity : ComponentActivity() {
 
@@ -72,7 +74,9 @@ class MainActivity : ComponentActivity() {
                     var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
                     FilledTonalButton(
                         onClick = { flg = 1 },
-                        modifier = Modifier.size(80.dp).padding(1.dp)
+                        modifier = Modifier
+                            .size(80.dp)
+                            .padding(1.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.PhotoCamera, // カメラのアイコンに変更
@@ -97,12 +101,49 @@ class MainActivity : ComponentActivity() {
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
                         println(bitmap)
+
+                        if(bitmap != null){
+                            flg = 0
+
+                            val bitmapnotnull = bitmap
+                            val context: Context = this
+                            val assetManager = context.assets   //asettのパス
+                            val modelPath = "yolov10n_float32.tflite"
+                            val inputStream = assetManager.open(modelPath)
+                            println(inputStream)
+                            println("もでるぱす")
+
+                            //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
+
+
+                            // recognizeImageメソッドを呼び出して認識結果を取得
+//                            try {
+//                                val recognizer = YOLOv10ImageRecognizer(inputStream)
+//                                val results = recognizer.recognizeImage(bitmapnotnull)
+//                                results.forEach { result ->
+//                                    println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
+//                                }
+//                            } catch (e: Exception) {
+//                                Log.e("MainActivity", "Error during image recognition", e)
+//                            }
+
+                            // 結果を出力
+//                            results.forEach { result ->
+//                                println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
+//                            }
+                        }
+
+                        //Bitmapを変換する関数呼び出し
+                        // transe_Bitmap(bitmap)
+
                         //カメラ権限呼び出し
                         //CameraScreen()
 
                         //flg = 0
                     }
                     //カメラ起動E------------------------------------------------------------
+
+
 
                 }
             }
@@ -195,7 +236,9 @@ fun GreetingPreview() {
 
         FilledTonalButton(
             onClick = { flg = 1 },
-            modifier = Modifier.size(80.dp).padding(8.dp)
+            modifier = Modifier
+                .size(80.dp)
+                .padding(8.dp)
 
         ) {
             Text(text = "カメラ起動")

@@ -125,11 +125,11 @@ dependencies {
     //implementation("androidx.compose.material:material-icons-extended-android:1.7.5")
     //アイコン関係E----------------------------------------------------------------------
 
-//    //tensorflow-lite関係S----------------------------------------------------------
-//    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
+    //tensorflow-lite関係S----------------------------------------------------------
+    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
 //    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
 //    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
-//    //tensorflow-lite関係E----------------------------------------------------------
+    //tensorflow-lite関係E----------------------------------------------------------
 
     //registerForActivityResultを使うS--------------------------------------------------
 //    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
