@@ -72,6 +72,16 @@ class MainActivity : ComponentActivity() {
 
                     //カメラ起動S------------------------------------------------------------
                     var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
+                    //uri_getに取得したuriを格納する
+                    var uri_get by remember { mutableStateOf(Uri.EMPTY) }
+                    //確認
+                    if(uri_get != Uri.EMPTY){
+                        println("初期URIがヌルではない")
+                    }
+                    else{
+                        println("初期URIがヌル")
+                    }
+
                     FilledTonalButton(
                         onClick = { flg = 1 },
                         modifier = Modifier
@@ -87,8 +97,6 @@ class MainActivity : ComponentActivity() {
                     }
                     if(flg == 1){
                         //フォルダから写真を選択するS---------------------------------------------------------
-                        //uri_getに取得したuriを格納する
-                        var uri_get by remember { mutableStateOf(Uri.EMPTY) }
                         uri_get=
                             content(
                                 //何も選択しない場合
@@ -98,12 +106,15 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         //フォルダから写真を選択するE---------------------------------------------------------
+
+                    }
+                    if(uri_get != Uri.EMPTY){
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
                         println(bitmap)
 
                         if(bitmap != null){
-                            flg = 0
+
 
                             val bitmapnotnull = bitmap
                             val context: Context = this
@@ -132,14 +143,13 @@ class MainActivity : ComponentActivity() {
 //                                println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
 //                            }
                         }
-
                         //Bitmapを変換する関数呼び出し
                         // transe_Bitmap(bitmap)
 
                         //カメラ権限呼び出し
                         //CameraScreen()
 
-                        //flg = 0
+                        flg=0
                     }
                     //カメラ起動E------------------------------------------------------------
 
