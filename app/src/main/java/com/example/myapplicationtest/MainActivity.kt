@@ -65,18 +65,19 @@ class MainActivity : ComponentActivity() {
             MyApplicationTestTheme {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
-//                    Greeting(
+                    val localPadding = innerPadding
+                    //                    Greeting(
 //                        name = "Android",
 //                        modifier = Modifier.padding(innerPadding)
 //                    )
 
-                    var str by remember { mutableStateOf("あんどろ") }
-                    Box {
-                        Greeting(
-                            str, onClick = {str = "ボタンがタップされました"},
-                            modifier = Modifier.padding(innerPadding)   //余白
-                        )
-                    }
+//                    var str by remember { mutableStateOf("あんどろ") }
+//                    Box {
+//                        Greeting(
+//                            str, onClick = {str = "ボタンがタップされました"},
+//                            modifier = Modifier.padding(innerPadding)   //余白
+//                        )
+//                    }
 
                     //カメラ起動S------------------------------------------------------------
                     var camera_flg by remember { mutableIntStateOf(0) }
