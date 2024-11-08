@@ -44,7 +44,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import android.content.res.AssetManager
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.Photo
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
 
@@ -72,6 +79,34 @@ class MainActivity : ComponentActivity() {
                     }
 
                     //カメラ起動S------------------------------------------------------------
+                    var camera_flg by remember { mutableIntStateOf(0) }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    )
+                    {
+                        LaunchedEffect(key1 = true) {
+
+                        }
+                        IconButton(
+                            onClick = { camera_flg=1 },
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.PhotoCamera,
+                                contentDescription = "",
+                                modifier = Modifier.size(48.dp)
+                            )
+                        }
+                    }
+                    if(camera_flg==1){
+                        CameraScreen()
+                    }
+                    //カメラ起動E------------------------------------------------------------
+
+
+                    //画像ピッカー起動S------------------------------------------------------------
                     var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
                     //uri_getに取得したuriを格納する
                     var uri_get by remember { mutableStateOf(Uri.EMPTY) }
@@ -90,8 +125,8 @@ class MainActivity : ComponentActivity() {
                             .padding(1.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Photo, // カメラのアイコンに変更
-                            contentDescription = "カメラ起動",
+                            imageVector = Icons.Rounded.Photo, // フォルダアイコンに変更
+                            contentDescription = "",
                             modifier = Modifier.size(ButtonDefaults.IconSize)
                         )
                         //Text(text = "カメラ起動")
@@ -153,7 +188,7 @@ class MainActivity : ComponentActivity() {
 
                         flg=0
                     }
-                    //カメラ起動E------------------------------------------------------------
+                    //画像ピッカー起動E------------------------------------------------------------
 
 
 
@@ -244,21 +279,43 @@ fun GreetingPreview() {
 //            Greeting(str, onClick = {str = moji})
 //        }
 
-        var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
+//        var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
+//
+//        FilledTonalButton(
+//            onClick = { flg = 1 },
+//            modifier = Modifier
+//                .size(80.dp)
+//                .padding(8.dp)
+//
+//        ) {
+//            Text(text = "カメラ起動")
+//        }
+//        if(flg == 1){
+//            //カメラ権限呼び出し
+//            CameraScreen()
+//        }
 
-        FilledTonalButton(
-            onClick = { flg = 1 },
+        Box(
             modifier = Modifier
-                .size(80.dp)
-                .padding(8.dp)
+                .fillMaxSize()
+                .padding(16.dp)
+        )
+        {
+            LaunchedEffect(key1 = true) {
 
-        ) {
-            Text(text = "カメラ起動")
+            }
+            IconButton(
+                onClick = {  },
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.PhotoCamera,
+                    contentDescription = "",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
-        if(flg == 1){
-            //カメラ権限呼び出し
-            CameraScreen()
-        }
+
 
     }
 }
