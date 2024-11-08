@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import android.content.res.AssetManager
+import androidx.compose.material.icons.rounded.Photo
 
 class MainActivity : ComponentActivity() {
 
@@ -89,7 +90,7 @@ class MainActivity : ComponentActivity() {
                             .padding(1.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.PhotoCamera, // カメラのアイコンに変更
+                            imageVector = Icons.Rounded.Photo, // カメラのアイコンに変更
                             contentDescription = "カメラ起動",
                             modifier = Modifier.size(ButtonDefaults.IconSize)
                         )
@@ -103,6 +104,7 @@ class MainActivity : ComponentActivity() {
                                 onNothingSelected = {
                                     // Handle nothing selected, e.g., show a message or log an event
                                     Log.d("MainActivity", "No image selected")
+                                    flg=0
                                 }
                             )
                         //フォルダから写真を選択するE---------------------------------------------------------
