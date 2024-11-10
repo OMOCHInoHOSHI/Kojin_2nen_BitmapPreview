@@ -1,6 +1,7 @@
 package com.example.myapplicationtest
 
 import android.content.ContentResolver
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -16,16 +17,38 @@ import java.io.ByteArrayOutputStream
 
 //拡張関数　//クラスを新しい機能で拡張
 //Bitmapを返却
-
+//指定されたURIからBitmap画像を取得する
 fun Uri.getBitmapOrNull(contentResolver: ContentResolver): Bitmap? {
     return kotlin.runCatching {
         //Build.VERSION.SDK_INTでAPIレベルを取得   //Build.VERSION_CODES.QはAPIレベル29(Android10)
         //現在のAndroidのバージョンがAndroid 10以上かどうか
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            //10以上（API29以上）の場合
             val source = ImageDecoder.createSource(contentResolver, this)
             ImageDecoder.decodeBitmap(source)
+
         } else {
             MediaStore.Images.Media.getBitmap(contentResolver, this)
         }
     }.getOrNull()
+}
+
+
+//受け取ったBitmapをARGB_8888に変換する関数
+fun convertToARGB8888(bitmap: Bitmap): Bitmap {
+    //ARGB_8888ではないなら変換
+    if (bitmap.config != Bitmap.Config.ARGB_8888) {
+        println("ARGB_8888に変換")
+
+        //ARGB_8888で初期化して生成
+        val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
+
+        //元のBitmapは解放
+        bitmap.recycle()
+
+        return newBitmap
+    } else {
+        println("ARGB_8888でした")
+        return bitmap
+    }
 }

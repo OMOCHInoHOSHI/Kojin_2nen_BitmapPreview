@@ -2,11 +2,9 @@ package com.example.myapplicationtest
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -15,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,23 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
-import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import android.content.res.AssetManager
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
 
@@ -156,13 +142,21 @@ class MainActivity : ComponentActivity() {
 
                             val bitmapnotnull = bitmap
                             val context: Context = this
-                            val assetManager = context.assets   //asettのパス
-                            val modelPath = "yolov10n_float32.tflite"
-                            val inputStream = assetManager.open(modelPath)
-                            println(inputStream)
-                            println("もでるぱす")
+//                            val assetManager = context.assets   //asettのパス
+//                            val modelPath = "yolov10n_float32.tflite"
+//                            val inputStream = assetManager.open(modelPath)
+//                            println(inputStream)
+//                            println("もでるぱす")
+
+                            val bitmap888 = convertToARGB8888(bitmapnotnull);
+
+                            //TFLite関数を呼び出す
+                            tFLite_Yolov10n(context,bitmap888);
 
                             //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
+
+                            //bitmapの配列の確認
+
 
 
                             // recognizeImageメソッドを呼び出して認識結果を取得
