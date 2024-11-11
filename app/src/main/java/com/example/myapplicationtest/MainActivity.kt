@@ -139,7 +139,7 @@ class MainActivity : ComponentActivity() {
 
                         if(bitmap != null){
 
-
+                            //ヌルではないbitmap
                             val bitmapnotnull = bitmap
                             val context: Context = this
 //                            val assetManager = context.assets   //asettのパス
@@ -148,10 +148,14 @@ class MainActivity : ComponentActivity() {
 //                            println(inputStream)
 //                            println("もでるぱす")
 
-                            val bitmap888 = convertToARGB8888(bitmapnotnull);
+                            // ARGB_8888に変換する
+                            val bitmap888 = convertToARGB8888(bitmapnotnull)
+
+                            // bitmapを640 * 640　にリサイズする
+                            val bitmap_resize  = resizeTo640x640(bitmap888)
 
                             //TFLite関数を呼び出す
-                            tFLite_Yolov10n(context,bitmap888);
+                            tFLite_Yolov10n(context,bitmap_resize)
 
                             //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
 

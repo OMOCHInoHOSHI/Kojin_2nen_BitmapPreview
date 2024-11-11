@@ -133,6 +133,7 @@ dependencies {
     implementation ("org.tensorflow:tensorflow-lite:2.13.0")
 //    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
 //    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
+//    implementation ("org.tensorflow:tensorflow-lite-task-vision:0.3.1")
     //tensorflow-lite関係E----------------------------------------------------------
 
     //registerForActivityResultを使うS--------------------------------------------------

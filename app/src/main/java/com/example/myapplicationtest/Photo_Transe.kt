@@ -52,3 +52,27 @@ fun convertToARGB8888(bitmap: Bitmap): Bitmap {
         return bitmap
     }
 }
+
+
+// 受け取ったbitmapを640×640の大きさにリサイズする関数
+fun resizeTo640x640(bitmap: Bitmap): Bitmap{
+
+    val width = bitmap.width
+    val height = bitmap.height
+    val isCorrectShape = (width == 640 && height == 640)
+
+    // 640×640の大きさにリサイズ
+    if(isCorrectShape){
+        println("幅＝$width、高さ＝$height")
+        println("リサイズしません")
+        //640×640ならそのまま返却
+        return bitmap
+    }
+    else{
+        println("幅＝$width、高さ＝$height")
+        println("リサイズします")
+        return Bitmap.createScaledBitmap(bitmap, 640, 640, true)
+    }
+
+
+}
