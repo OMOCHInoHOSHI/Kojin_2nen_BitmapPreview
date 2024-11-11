@@ -19,7 +19,9 @@ fun tFLite_Yolov10n(context: Context, bitmap: Bitmap){
     val isCorrectShape = (width == 640 && height == 640)
 
     val config = bitmap.config
-    val isRgb = (config == Bitmap.Config.ARGB_8888) // || config == Bitmap.Config.RGB_565
+//    val isRgb = (config == Bitmap.Config.RGB_565)
+    val isRgb = (config == Bitmap.Config.ARGB_8888)
+// || config == Bitmap.Config.RGB_565 //config == Bitmap.Config.ARGB_8888 ||
 
     val isCorrectShapeAndChannels = isCorrectShape && isRgb
     if (isCorrectShapeAndChannels) {
@@ -31,7 +33,7 @@ fun tFLite_Yolov10n(context: Context, bitmap: Bitmap){
     // 確認E-----------------------------------------------------------------------------------------
 
 
-    // Runs model inference and gets result.
+    // Runs model inference and gets res ult.
 //    val outputs = model.process(image)
 //    val output = outputs.outputAsCategoryList
 

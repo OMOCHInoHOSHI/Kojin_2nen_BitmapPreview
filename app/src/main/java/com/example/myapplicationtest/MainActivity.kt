@@ -151,6 +151,9 @@ class MainActivity : ComponentActivity() {
                             // ARGB_8888に変換する
                             val bitmap888 = convertToARGB8888(bitmapnotnull)
 
+                            // convertToRGB_565
+                            val bitmap565 = convertToRGB_565(bitmapnotnull)
+
                             // bitmapを640 * 640　にリサイズする
                             val bitmap_resize  = resizeTo640x640(bitmap888)
 

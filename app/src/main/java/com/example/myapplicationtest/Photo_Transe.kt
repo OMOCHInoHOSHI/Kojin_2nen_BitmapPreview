@@ -54,6 +54,26 @@ fun convertToARGB8888(bitmap: Bitmap): Bitmap {
 }
 
 
+//受け取ったBitmapをRGB_565に変換する関数
+fun convertToRGB_565(bitmap: Bitmap): Bitmap {
+    //ARGB_8888ではないなら変換
+    if (bitmap.config != Bitmap.Config.RGB_565) {
+        println("RGB_565に変換")
+
+        //ARGB_8888で初期化して生成
+        val newBitmap = bitmap.copy(Bitmap.Config.RGB_565, false)
+
+        //元のBitmapは解放
+        bitmap.recycle()
+
+        return newBitmap
+    } else {
+        println("RGB_565でした")
+        return bitmap
+    }
+}
+
+
 // 受け取ったbitmapを640×640の大きさにリサイズする関数
 fun resizeTo640x640(bitmap: Bitmap): Bitmap{
 
