@@ -64,12 +64,21 @@ chaquopy{
         //buildPython("C:/Python/python3")
         //buildPython("C:/Users/tamago/AppData/Local/Microsoft/WindowsApps/python3")
         //インストールしたPythonのパス
-
+        version = "3.8"
         pip {
             // numpyをインストールする
             install("numpy")
             // pandasをインストールする
             install("pandas")
+
+//            install ("ultralytics==8.3.12")
+//            install ("seaborn==0.12.2")
+//            install ("opencv-python==4.5.1.48")
+
+            install ("ultralytics")
+            install ("seaborn")
+            install ("opencv-python")
+
             /* requirements.txtを指定することも可能
             install("-r", "requirements.txt")
             */

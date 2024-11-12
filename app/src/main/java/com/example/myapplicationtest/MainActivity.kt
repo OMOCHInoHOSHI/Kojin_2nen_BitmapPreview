@@ -41,6 +41,12 @@ class MainActivity : ComponentActivity() {
         val num2 = module.callAttr("test_pandas")
         println(num1)
         println(num2)
+
+        val txtpa = module.callAttr("hellow_model")
+        println(txtpa)
+//        val texmodel = module.callAttr("model_rode")
+//        println(texmodel)
+
         //追加-------------------------------------------------------------
     }
 }
