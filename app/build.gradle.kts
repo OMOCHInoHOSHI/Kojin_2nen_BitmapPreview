@@ -130,7 +130,8 @@ dependencies {
     //アイコン関係E----------------------------------------------------------------------
 
     //tensorflow-lite関係S----------------------------------------------------------
-    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation ("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.4.4")
 //    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
 //    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
 //    implementation ("org.tensorflow:tensorflow-lite-task-vision:0.3.1")
