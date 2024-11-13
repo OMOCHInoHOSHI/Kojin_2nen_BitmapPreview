@@ -14,12 +14,12 @@ def model_chxk():
     # file_path = "yolov10s.pt"
     # file_path = "./aaa.txt"
     if os.path.exists(file_path):
-        return "yolov10s.pt発見"
-        # try:
-        #     model = YOLO("yolov10s.pt")
-        #     return "yolov10s.pt確認"
-        # except Exception as e:
-        #     return f"モデルのロードに失敗しました: {e}"
+        # return "yolov10s.pt発見"
+        try:
+            model = YOLO(file_path)
+            return "モデルをロード"
+        except Exception as e:
+            return f"モデルのロードに失敗しました: {e}"
     else:
         return "yolov10s.ptが見つかりません"
 
