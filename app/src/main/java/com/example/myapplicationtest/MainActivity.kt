@@ -77,15 +77,15 @@ class MainActivity : ComponentActivity() {
 //        val tex3 = module.callAttr("hellow_yolo")
 //        println(tex3)
 
-            val txtpa = module.callAttr("hellow_model")
-            println(txtpa)
+//            val txtpa = module.callAttr("hellow_model")
+//            println(txtpa)
+//
+//            val modepath = module.callAttr("file_check")
+//            println(modepath)
 
-
-            val modepath = module.callAttr("file_check")
-            println(modepath)
-
-            val modelecheck = module.callAttr("model_chxk")
-            println(modelecheck)
+            // モデルをロードする
+            val modelerode = module.callAttr("model_Rode")
+            println(modelerode)
 
             //追加-------------------------------------------------------------
 
@@ -94,18 +94,7 @@ class MainActivity : ComponentActivity() {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
                     val localPadding = innerPadding
-                    //                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
 
-//                    var str by remember { mutableStateOf("あんどろ") }
-//                    Box {
-//                        Greeting(
-//                            str, onClick = {str = "ボタンがタップされました"},
-//                            modifier = Modifier.padding(innerPadding)   //余白
-//                        )
-//                    }
 
                     //カメラ起動S------------------------------------------------------------
                     var camera_flg by remember { mutableIntStateOf(0) }
@@ -181,44 +170,19 @@ class MainActivity : ComponentActivity() {
 
                         if(bitmap != null){
 
-
-                            val bitmapnotnull = bitmap
+                            val bitmapnotnull = bitmap  //nllでないbitmap
                             val context: Context = this
                             val assetManager = context.assets   //asettのパス
-                            val modelPath = "yolov10n_float32.tflite"
-                            val inputStream = assetManager.open(modelPath)
-                            println(inputStream)
-                            println("もでるぱす")
-
-                            //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
 
 
-                            // recognizeImageメソッドを呼び出して認識結果を取得
-//                            try {
-//                                val recognizer = YOLOv10ImageRecognizer(inputStream)
-//                                val results = recognizer.recognizeImage(bitmapnotnull)
-//                                results.forEach { result ->
-//                                    println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
-//                                }
-//                            } catch (e: Exception) {
-//                                Log.e("MainActivity", "Error during image recognition", e)
-//                            }
-
-                            // 結果を出力
-//                            results.forEach { result ->
-//                                println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
-//                            }
                         }
                         //Bitmapを変換する関数呼び出し
                         // transe_Bitmap(bitmap)
 
-                        //カメラ権限呼び出し
-                        //CameraScreen()
 
                         flg=0
                     }
                     //画像ピッカー起動E------------------------------------------------------------
-
 
 
                 }

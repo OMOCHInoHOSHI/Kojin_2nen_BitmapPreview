@@ -5,30 +5,29 @@ from ultralytics import YOLO
 # import sys
 # import platform
 
+# YOLOモデルの場所
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_dir, "yolov10s.pt")
 
-def model_chxk():
+# モデルをロードする関数S--------------------------------------------------------
+def model_Rode():
+    # current_dir = os.path.dirname(os.path.abspath(__file__))
+    # file_path = os.path.join(current_dir, "yolov10s.pt")
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, "yolov10s.pt")
+    global  file_path
 
-    # file_path = "yolov10s.pt"
-    # file_path = "./aaa.txt"
+    # YOLOモデルをロードする
     if os.path.exists(file_path):
         # return "yolov10s.pt発見"
         try:
             model = YOLO(file_path)
-            return "モデルをロード"
+            return "YOLOモデルをロード"
         except Exception as e:
             return f"モデルのロードに失敗しました: {e}"
     else:
         return "yolov10s.ptが見つかりません"
+# モデルをロードする関数E--------------------------------------------------------
 
-    # try:
-    #     # デルのロード (例: YOLOv10-M)
-    #     model = YOLO("./yolov10s.pt")
-    #     return "ロード成功"
-    # except Exception :
-    #     return "ロード失敗"
 
 def file_check():
     dir = os.path.dirname(os.path.abspath(__file__))
