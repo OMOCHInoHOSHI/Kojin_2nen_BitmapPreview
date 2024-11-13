@@ -115,8 +115,8 @@ chaquopy{
 
 
 dependencies {
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.appcompat)
+//    implementation(libs.androidx.fragment.ktx)
+//    implementation(libs.androidx.appcompat)
     //カメラライブラリS---------------------------------------------------------
     val cameraxVersion = "1.3.4"    //変数
     implementation("androidx.camera:camera-core:${cameraxVersion}")

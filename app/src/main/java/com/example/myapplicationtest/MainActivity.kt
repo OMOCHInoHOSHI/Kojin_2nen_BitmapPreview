@@ -38,7 +38,6 @@ import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
@@ -62,6 +61,35 @@ class MainActivity : ComponentActivity() {
         // ContentResolverを取得
         val content_Resolver = contentResolver
         setContent {
+            //python追加-------------------------------------------------------------
+            val py = getInstance()
+            val module = py.getModule("hello")
+            val txt1 = module.callAttr("hello_world")
+            val txt2 = module.callAttr("set_text", "Good Morning")
+            println(txt1)   // logに出力。Logcatに出力される
+            println(txt2)   // logに出力。Logcatに出力される
+
+            val num1 = module.callAttr("test_numpy")
+            val num2 = module.callAttr("test_pandas")
+            println(num1)
+            println(num2)
+
+//        val tex3 = module.callAttr("hellow_yolo")
+//        println(tex3)
+
+            val txtpa = module.callAttr("hellow_model")
+            println(txtpa)
+
+
+            val modepath = module.callAttr("file_check")
+            println(modepath)
+
+            val modelecheck = module.callAttr("model_chxk")
+            println(modelecheck)
+
+            //追加-------------------------------------------------------------
+
+
             MyApplicationTestTheme {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
@@ -196,30 +224,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        //python追加-------------------------------------------------------------
-        val py = getInstance()
-        val module = py.getModule("hello")
-        val txt1 = module.callAttr("hello_world")
-        val txt2 = module.callAttr("set_text", "Good Morning")
-        println(txt1)   // logに出力。Logcatに出力される
-        println(txt2)   // logに出力。Logcatに出力される
 
-        val num1 = module.callAttr("test_numpy")
-        val num2 = module.callAttr("test_pandas")
-        println(num1)
-        println(num2)
-
-//        val tex3 = module.callAttr("hellow_yolo")
-//        println(tex3)
-
-        val txtpa = module.callAttr("hellow_model")
-        println(txtpa)
-        val texmodel = module.callAttr("model_rode")
-        println(texmodel)
-
-        val modepath = module.callAttr("file_check")
-        println(modepath)
-        //追加-------------------------------------------------------------
     }
 }
 
