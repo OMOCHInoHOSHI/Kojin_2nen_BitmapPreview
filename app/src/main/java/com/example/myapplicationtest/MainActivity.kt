@@ -211,6 +211,14 @@ class MainActivity : ComponentActivity() {
 
 //        val tex3 = module.callAttr("hellow_yolo")
 //        println(tex3)
+
+        val txtpa = module.callAttr("hellow_model")
+        println(txtpa)
+        val texmodel = module.callAttr("model_rode")
+        println(texmodel)
+
+        val modepath = module.callAttr("file_check")
+        println(modepath)
         //追加-------------------------------------------------------------
     }
 }
