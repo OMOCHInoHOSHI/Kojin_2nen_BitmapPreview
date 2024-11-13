@@ -9,14 +9,19 @@ def model_rode():
     # デルのロード (例: YOLOv10-M)
     try:
         # デルのロード (例: YOLOv10-M)
-        model = YOLO("yolov10s.pt")
+        model = YOLO("..yolov10s.pt")
         return "ロード成功"
-    except Exception as e:
-        print(f"モデルのロードに失敗しました: {e}")
+    except Exception :
         return "ロード失敗"
 
+def file_check():
+    dir = os.path.dirname(os.path.abspath(__file__))
+    return os.listdir(dir)
+
+
 def hellow_model():
-    current_dir = os.getcwd()
+    # current_dir = os.getcwd()
+    current_dir = os.path.abspath("hello.py")
     return current_dir
 
 def hello_world():
