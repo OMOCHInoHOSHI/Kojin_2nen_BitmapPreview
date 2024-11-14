@@ -31,6 +31,18 @@ def model_Rode():
         return "yolov10s.ptが見つかりません"
 # モデルをロードする関数E--------------------------------------------------------
 
+# bitmapの型を確認する関数Ｓ--------------------------------------------------------
+def bit_rode(c_bitmap):
+    return f"{type(c_bitmap)}"
+# bitmapの型を確認する関数E--------------------------------------------------------
+
+# def bitmap_trance(c_bitmap):
+#     try:
+#         results = model(c_bitmap)
+#         num_objects = len(results[0].boxes)
+#         return num_objects
+#     except Exception as e:
+#         return f"Error processing image: {e}" # Or handle the error in a more appropriate way
 
 def file_check():
     dir = os.path.dirname(os.path.abspath(__file__))

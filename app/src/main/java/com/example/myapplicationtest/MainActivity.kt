@@ -183,16 +183,18 @@ class MainActivity : ComponentActivity() {
                             //pythonにbimtapを渡す
 //                            val bit = module.callAttr("model_Rode")
 //                            println(modelerode)
-                            //bitmapの型
-                            val C_bit = module.callAttr("bit_rode",use_bitmap)
-                            println(C_bit)
+
 
                             //bitmapをバイト配列に変換
                             val bitmap_array = bitmapToBitmap(use_bitmap)
 
+                            //型確認
+                            val C_bit = module.callAttr("bit_rode",bitmap_array)
+                            println(C_bit)
+
                             //
-                            val bitmap_result = module.callAttr("bitmap_trance",use_bitmap)
-                            println(bitmap_result)
+//                            val bitmap_result = module.callAttr("bitmap_trance",use_bitmap)
+//                            println(bitmap_result)
 
                         }
 

@@ -12,10 +12,11 @@ import androidx.compose.runtime.Composable
 //import androidx.compose.ui.text.LinkAnnotation
 import com.chaquo.python.Python
 import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 
 
 //拡張関数　//クラスを新しい機能で拡張
-//Bitmapを返却
+//Bitmapを返却する関数S------------------------------------------------------------------------------------
 fun Uri.getBitmapOrNull(contentResolver: ContentResolver): Bitmap? {
     return kotlin.runCatching {
         //Build.VERSION.SDK_INTでAPIレベルを取得   //Build.VERSION_CODES.QはAPIレベル29(Android10)
@@ -28,8 +29,9 @@ fun Uri.getBitmapOrNull(contentResolver: ContentResolver): Bitmap? {
         }
     }.getOrNull()
 }
+//Bitmapを返却する関数E------------------------------------------------------------------------------------
 
-//受け取ったBitmapをARGB_8888に変換する関数
+//受け取ったBitmapをARGB_8888に変換する関数S--------------------------------------------------------------
 fun convertToARGB8888(bitmap: Bitmap): Bitmap {
     //ARGB_8888ではないなら変換
     if (bitmap.config != Bitmap.Config.ARGB_8888) {
@@ -47,9 +49,9 @@ fun convertToARGB8888(bitmap: Bitmap): Bitmap {
         return bitmap
     }
 }
+//受け取ったBitmapをARGB_8888に変換する関数E--------------------------------------------------------------
 
-
-//受け取ったBitmapをRGB_565に変換する関数
+//受け取ったBitmapをRGB_565に変換する関数S----------------------------------------------------------------
 fun convertToRGB_565(bitmap: Bitmap): Bitmap {
     //ARGB_8888ではないなら変換
     if (bitmap.config != Bitmap.Config.RGB_565) {
@@ -67,9 +69,9 @@ fun convertToRGB_565(bitmap: Bitmap): Bitmap {
         return bitmap
     }
 }
+// 受け取ったBitmapをRGB_565に変換する関数E----------------------------------------------------------------
 
-
-// 受け取ったbitmapを640×640の大きさにリサイズする関数
+// 受け取ったbitmapを640×640の大きさにリサイズする関数S---------------------------------------------------
 fun resizeTo640x640(bitmap: Bitmap): Bitmap{
 
     val width = bitmap.width
@@ -91,3 +93,15 @@ fun resizeTo640x640(bitmap: Bitmap): Bitmap{
 
 
 }
+// 受け取ったbitmapを640×640の大きさにリサイズする関数E---------------------------------------------------
+
+// Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
+fun bitmapToBitmap(bitmap: Bitmap):ByteArray {
+
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+    val byteArray = byteArrayOutputStream.toByteArray()
+
+    return byteArray
+}
+// Bitmapクラスを画像フォーマットのbitmapに変換する関数E--------------------------------------------------
