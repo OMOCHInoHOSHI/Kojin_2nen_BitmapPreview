@@ -95,6 +95,9 @@ chaquopy{
             install ("seaborn")
             install ("opencv-python")
 
+            install("tensorflow")
+            install("pillow")
+
             /* requirements.txtを指定することも可能
             install("-r", "requirements.txt")
             */

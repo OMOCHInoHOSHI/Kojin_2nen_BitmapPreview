@@ -191,9 +191,11 @@ class MainActivity : ComponentActivity() {
                             // BitmapデータからBase64へ変換
                             val base64_array = bitmapToBase64(use_bitmap)
 
-                            //型確認
+                            // 型確認
                             val C_bit = module.callAttr("bit_rode",base64_array)
                             println(C_bit)
+
+                            // base64の画像をpythonに渡して変換
 
                             //
 //                            val bitmap_result = module.callAttr("bitmap_trance",use_bitmap)
