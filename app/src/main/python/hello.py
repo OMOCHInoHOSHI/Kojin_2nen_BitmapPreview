@@ -2,19 +2,22 @@ import numpy as np # 追加
 import pandas as pd # 追加
 import os
 from ultralytics import YOLO
+import cv2
 # import sys
 # import platform
 
 # YOLOモデルの場所
 current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(current_dir, "yolov10s.pt")
+model = None
 
 # モデルをロードする関数S--------------------------------------------------------
 def model_Rode():
     # current_dir = os.path.dirname(os.path.abspath(__file__))
     # file_path = os.path.join(current_dir, "yolov10s.pt")
 
-    global  file_path
+    global file_path
+    global model
 
     # YOLOモデルをロードする
     if os.path.exists(file_path):

@@ -137,7 +137,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     FilledTonalButton(
-                        onClick = { flg = 1 },
+                        onClick = { flg += 1 },
                         modifier = Modifier
                             .size(80.dp)
                             .padding(1.dp)
@@ -163,21 +163,25 @@ class MainActivity : ComponentActivity() {
                         //フォルダから写真を選択するE---------------------------------------------------------
 
                     }
-                    if(uri_get != Uri.EMPTY){
+                    //画像のuriが取得できた場合
+                    if((uri_get != Uri.EMPTY) && flg==1){
+
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
-                        println(bitmap)
+                        println("uriのbitmap$bitmap")
 
                         if(bitmap != null){
 
                             val bitmapnotnull = bitmap  //nllでないbitmap
+                            println("nullじゃないbitmap$bitmapnotnull")
                             val context: Context = this
                             val assetManager = context.assets   //asettのパス
 
+                            //bitmapのサイズをリサイズする
+                            val use_bitmap  = resizeTo640x640(bitmapnotnull)
+
 
                         }
-                        //Bitmapを変換する関数呼び出し
-                        // transe_Bitmap(bitmap)
 
 
                         flg=0
