@@ -90,13 +90,11 @@ fun resizeTo640x640(bitmap: Bitmap): Bitmap{
         println("リサイズします")
         return Bitmap.createScaledBitmap(bitmap, 640, 640, true)
     }
-
-
 }
 // 受け取ったbitmapを640×640の大きさにリサイズする関数E---------------------------------------------------
 
 // Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
-fun bitmapToBitmap(bitmap: Bitmap):ByteArray {
+fun bitmapToByteArray(bitmap: Bitmap):ByteArray {
 
     val byteArrayOutputStream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
@@ -105,3 +103,15 @@ fun bitmapToBitmap(bitmap: Bitmap):ByteArray {
     return byteArray
 }
 // Bitmapクラスを画像フォーマットのbitmapに変換する関数E--------------------------------------------------
+
+// BitmapデータからBase64へ変換する関数S------------------------------------------------------
+fun bitmapToBase64(bitmap: Bitmap):String {
+    //bitmapからByteArrayに変換
+    val bytearray = bitmapToByteArray(bitmap)
+
+    // ByteArrayをBase64文字列に変換
+    val base64String = Base64.encodeToString(bytearray, Base64.DEFAULT)
+
+    return  base64String
+}
+// BitmapデータからBase64へ変換する関数S------------------------------------------------------

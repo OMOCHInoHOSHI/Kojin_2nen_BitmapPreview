@@ -186,10 +186,13 @@ class MainActivity : ComponentActivity() {
 
 
                             //bitmapをバイト配列に変換
-                            val bitmap_array = bitmapToBitmap(use_bitmap)
+//                            val bitmap_array = bitmapToByteArray(use_bitmap)
+
+                            // BitmapデータからBase64へ変換
+                            val base64_array = bitmapToBase64(use_bitmap)
 
                             //型確認
-                            val C_bit = module.callAttr("bit_rode",bitmap_array)
+                            val C_bit = module.callAttr("bit_rode",base64_array)
                             println(C_bit)
 
                             //
