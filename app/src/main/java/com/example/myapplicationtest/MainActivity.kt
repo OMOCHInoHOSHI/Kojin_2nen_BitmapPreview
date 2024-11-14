@@ -180,6 +180,19 @@ class MainActivity : ComponentActivity() {
                             //bitmapのサイズをリサイズする
                             val use_bitmap  = resizeTo640x640(bitmapnotnull)
 
+                            //pythonにbimtapを渡す
+//                            val bit = module.callAttr("model_Rode")
+//                            println(modelerode)
+                            //bitmapの型
+                            val C_bit = module.callAttr("bit_rode",use_bitmap)
+                            println(C_bit)
+
+                            //bitmapをバイト配列に変換
+                            val bitmap_array = bitmapToBitmap(use_bitmap)
+
+                            //
+                            val bitmap_result = module.callAttr("bitmap_trance",use_bitmap)
+                            println(bitmap_result)
 
                         }
 
