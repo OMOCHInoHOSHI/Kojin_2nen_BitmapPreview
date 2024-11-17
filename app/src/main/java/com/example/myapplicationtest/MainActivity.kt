@@ -2,55 +2,42 @@ package com.example.myapplicationtest
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
-import androidx.activity.compose.setContent
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import android.content.res.AssetManager
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.rounded.Photo
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
 
@@ -74,8 +61,6 @@ class MainActivity : ComponentActivity() {
             println(num1)
             println(num2)
 
-//        val tex3 = module.callAttr("hellow_yolo")
-//        println(tex3)
 
 //            val txtpa = module.callAttr("hellow_model")
 //            println(txtpa)
@@ -86,6 +71,7 @@ class MainActivity : ComponentActivity() {
             // モデルをロードする
             val modelerode = module.callAttr("model_Rode")
             println(modelerode)
+
 
             //追加-------------------------------------------------------------
 
@@ -178,7 +164,13 @@ class MainActivity : ComponentActivity() {
                             val assetManager = context.assets   //asettのパス
 
                             //bitmapのサイズをリサイズする
-                            val use_bitmap  = resizeTo640x640(bitmapnotnull)
+                            var use_bitmap  = resizeTo640x640(bitmapnotnull)
+
+                            //bitmap RGB_565に変換
+                            use_bitmap  = convertToRGB_565(use_bitmap)
+
+                            //bitmap ARGB8888に変換
+//                            use_bitmap  = convertToARGB8888(use_bitmap)
 
                             //pythonにbimtapを渡す
 //                            val bit = module.callAttr("model_Rode")
@@ -195,11 +187,18 @@ class MainActivity : ComponentActivity() {
                             val C_bit = module.callAttr("bit_rode",base64_array)
                             println(C_bit)
 
-                            // base64の画像をpythonに渡して変換
+                            // モデルチェック
+//                            val mode = module.callAttr("model_is_None")
+//                            println(mode)
 
-                            //
-//                            val bitmap_result = module.callAttr("bitmap_trance",use_bitmap)
-//                            println(bitmap_result)
+
+                            // 結果
+                            val result = module.callAttr("run_yolo_on_base64",base64_array)
+                            println(result)
+
+
+
+                            // base64の画像をpythonに渡して変換
 
                         }
 

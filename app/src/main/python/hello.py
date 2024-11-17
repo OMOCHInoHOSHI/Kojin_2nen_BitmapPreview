@@ -7,14 +7,16 @@ from PIL import Image
 import tensorflow as tf
 import io
 
+import subprocess
+
 # import cv2
 # import sys
 # import platform
 
 # YOLOモデルの場所
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# file_path = os.path.join(current_dir, "yolov10s.pt")
-file_path = os.path.join(current_dir, "yolov10n_float32.tflite")
+file_path = os.path.join(current_dir, "yolov10n.pt")
+# model_path = os.path.join(current_dir, "yolov10n_float16.tflite")
 model = None
 
 # モデルをロードする関数S--------------------------------------------------------
@@ -37,44 +39,110 @@ def model_Rode():
         return "yolov10s.ptが見つかりません"
 # モデルをロードする関数E--------------------------------------------------------
 
+# # tfモデルをロードする関数S--------------------------------------------------------
+# def ft_model_Rode():
+#
+#     global model_path
+#     global model
+#
+#     if os.path.exists(model_path):
+#         try:
+#             interpreter = tf.lite.Interpreter(model_path)
+#             interpreter.allocate_tensors()
+#             return "モデルロード"
+#
+#         except Exception as e:
+#             return f"モデルのロードに失敗しました: {e}"
+#     else:
+#         return f"{model_path}が見つかりません"
+# # tfモデルをロードする関数E--------------------------------------------------------
+
 # bitmapの型を確認する関数Ｓ--------------------------------------------------------
 def bit_rode(c_bitmap):
     return f"{type(c_bitmap)}"
 # bitmapの型を確認する関数E--------------------------------------------------------
 
-# Base64文字列をデコードしてNumPy配列に変換する関数S-----------------------------------
+
 def base64_to_image(base64_string):
     image_data = base64.b64decode(base64_string)
     image = Image.open(io.BytesIO(image_data))
+    # image.save("output.jpg", "JPEG")
     return np.array(image)
-# Base64文字列をデコードしてNumPy配列に変換する関数E-----------------------------------
+    # return  image
 
-# YOLOv10で画像認識する関数S-------------------------------------------------------
-def run_yolo_on_base64(base64_strings):
-    results = []
 
-    for base64_string in base64_strings:
+
+# Base64文字列をデコードしてJPEGに変換して保存する関数S----------------------------
+# def base64_to_Image_Keep(base64_string):
+
+
+
+# モデルがあるか確認S-------------------------------
+def model_is_None():
+    global model
+    if model is None:
+        return "モデルが正しくロードされていません"
+    else:
+        return "モデルヨシ"
+# モデルがあるか確認E-------------------------------
+
+
+
+# 人数を取得する関数S---------------------------------------------------------------
+def run_yolo_on_base64(base64_string):
+
+    global model
+
+    try:
         # Base64文字列を画像に変換
-        image_np = base64_to_image(base64_string)
+        image_jpg = base64_to_image(base64_string)
+        # return f"{type(image_jpg)}"
 
-        # 入力サイズにリサイズ（YOLOv10用）
-        input_shape = input_details[0]['shape'][1:3]
-        resized_image = tf.image.resize(image_np, input_shape)
-        resized_image = resized_image / 255.0  # 正規化
-        input_data = np.expand_dims(resized_image, axis=0).astype(np.float32)
+        try:
 
-        # モデル推論
-        interpreter.set_tensor(input_details[0]['index'], input_data)
-        interpreter.invoke()
+            results = model(image_jpg)
+            return f"{results}"
+            # 結果が空の場合のチェック
+            # if len(results) == 0 or not results[0].boxes:
+            # if len(results[0].boxes)==0:
+            #     return f"検出された物体はありません{type(results[0])}"
+            # else:
+            #     # return f"検出 {type(results[0])}"
+            #     return "era--"
+            # 検出された物体の数をカウント
+            # object_count = len(results[0].boxes)
+            # return f"検出された物体の数: {object_count}"
+            # # 推論結果
+            # if not hasattr(results[0], 'boxes'):
+            #     return "検出結果に 'boxes' 属性がありません"
+            # people_count = len(results[0].boxes)
+            # return f"検出された人数: {people_count}"
+        except Exception as e:
+            # return f"resultエラー: {e}"
+            return f"えら{results}"
 
-        # 出力データを取得
-        output_data = interpreter.get_tensor(output_details[0]['index'])
-        results.append(output_data)
-
-    return results
-# YOLOv10で画像認識する関数E-------------------------------------------------------
+        # return type(results)
+        # 人の数をカウント
+        # people_count = 0
+        # return people_count
 
 
+
+        # for *xyxy, conf, cls in results[0].xyxy[0]:
+        #     if int(cls) == 0:  # クラスが0（人）の場合
+        #         people_count += 1
+
+        # try:
+        #     people_count = len(results[0].boxes)
+        #
+        #     return f"人数{people_count}"  # 検出結果と人数を返す
+        # except Exception as e:
+        #     return f"エラー{e}"
+
+    except Exception as e:
+        return f"検出エラー: {e}"
+        # return "えら-"
+# 人数を取得する関数E---------------------------------------------------------------
 
 
 
@@ -112,9 +180,6 @@ def test_numpy():
 # ------ 以下の記述を追加 ------
 def test_pandas():
     return pd.Series([1,2,3,4,5])
-
-def hellow_yolo():
-    return "yolo"
 
 # # -*- coding: utf-8 -*-
 #
