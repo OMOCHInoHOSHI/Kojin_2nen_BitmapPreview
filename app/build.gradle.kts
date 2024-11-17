@@ -79,6 +79,9 @@ chaquopy{
             install ("seaborn")
             install ("opencv-python")
 
+            install("tensorflow")
+            install("pillow")
+
             /* requirements.txtを指定することも可能
             install("-r", "requirements.txt")
             */
@@ -92,6 +95,9 @@ chaquopy{
 
 dependencies {
 
+    implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
+    implementation("androidx.activity:activity-ktx:1.9.3")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -100,6 +106,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
