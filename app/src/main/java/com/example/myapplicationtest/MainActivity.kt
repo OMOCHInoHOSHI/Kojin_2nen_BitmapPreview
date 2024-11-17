@@ -5,11 +5,13 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
@@ -90,7 +93,9 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                     if(camera_flg==1){
-                        CameraScreen()
+//                        CameraScreen()
+                        camera_flg = CameraScreen_2(camera_flg)
+//                        camera_flg=0
                     }
                     //カメラ起動E------------------------------------------------------------
 
@@ -108,7 +113,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     FilledTonalButton(
-                        onClick = { flg = 1 },
+                        onClick = { flg += 1 },
                         modifier = Modifier
                             .size(80.dp)
                             .padding(1.dp)
@@ -134,7 +139,7 @@ class MainActivity : ComponentActivity() {
                         //フォルダから写真を選択するE---------------------------------------------------------
 
                     }
-                    if(uri_get != Uri.EMPTY){
+                    if(uri_get != Uri.EMPTY && flg==1){
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
                         println(bitmap)
@@ -143,12 +148,19 @@ class MainActivity : ComponentActivity() {
 
 
                             val bitmapnotnull = bitmap
-                            val context: Context = this
-                            val assetManager = context.assets   //asettのパス
-                            val modelPath = "yolov10n_float32.tflite"
-                            val inputStream = assetManager.open(modelPath)
-                            println(inputStream)
-                            println("もでるぱす")
+                            val usebitmpa = resizeTo640x640(bitmapnotnull)
+                            bitmapnotnull.recycle()
+
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                BitmapImagePreview(usebitmpa)
+                            }
+
+//                            val context: Context = this
+//                            val assetManager = context.assets   //asettのパス
+//                            val modelPath = "yolov10n_float32.tflite"
+//                            val inputStream = assetManager.open(modelPath)
+//                            println(inputStream)
+//                            println("もでるぱす")
 
                             //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
 
@@ -172,8 +184,7 @@ class MainActivity : ComponentActivity() {
                         //Bitmapを変換する関数呼び出し
                         // transe_Bitmap(bitmap)
 
-                        //カメラ権限呼び出し
-                        //CameraScreen()
+
 
                         flg=0
                     }
@@ -185,17 +196,17 @@ class MainActivity : ComponentActivity() {
             }
         }
         //python追加-------------------------------------------------------------
-        val py = getInstance()
-        val module = py.getModule("hello")
-        val txt1 = module.callAttr("hello_world")
-        val txt2 = module.callAttr("set_text", "Good Morning")
-        println(txt1)   // logに出力。Logcatに出力される
-        println(txt2)   // logに出力。Logcatに出力される
-
-        val num1 = module.callAttr("test_numpy")
-        val num2 = module.callAttr("test_pandas")
-        println(num1)
-        println(num2)
+//        val py = getInstance()
+//        val module = py.getModule("hello")
+//        val txt1 = module.callAttr("hello_world")
+//        val txt2 = module.callAttr("set_text", "Good Morning")
+//        println(txt1)   // logに出力。Logcatに出力される
+//        println(txt2)   // logに出力。Logcatに出力される
+//
+//        val num1 = module.callAttr("test_numpy")
+//        val num2 = module.callAttr("test_pandas")
+//        println(num1)
+//        println(num2)
 
 //        val tex3 = module.callAttr("hellow_yolo")
 //        println(tex3)
@@ -250,6 +261,24 @@ fun PhotoPicker(onPickPhoto: () -> Unit) {
     Button(onClick = { onPickPhoto() }) {
         Text(text = "写真を選択")
     }
+}
+
+@Composable
+fun BitmapImagePreview(bitmap: Bitmap) {
+    println("なっとう")
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ){
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = "Bitmap Image",
+            modifier = Modifier
+                .fillMaxSize()
+
+        )
+    }
+
 }
 
 
