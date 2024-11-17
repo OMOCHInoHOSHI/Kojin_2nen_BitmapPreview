@@ -152,7 +152,7 @@ class MainActivity : ComponentActivity() {
                             val bitmap888 = convertToARGB8888(bitmapnotnull)
 
                             // convertToRGB_565
-                            val bitmap565 = convertToRGB_565(bitmapnotnull)
+//                            val bitmap565 = convertToRGB_565(bitmapnotnull)
 
                             // bitmapを640 * 640　にリサイズする
                             val bitmap_resize  = resizeTo640x640(bitmap888)
@@ -160,7 +160,7 @@ class MainActivity : ComponentActivity() {
                             //TFLite関数を呼び出す
                             tFLite_Yolov10n(context,bitmap_resize)
 
-                            //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
+//                            val recognizer = YOLOv10ImageRecognizer(context, modelPath)
 
                             //bitmapの配列の確認
 
@@ -185,8 +185,6 @@ class MainActivity : ComponentActivity() {
                         //Bitmapを変換する関数呼び出し
                         // transe_Bitmap(bitmap)
 
-                        //カメラ権限呼び出し
-                        //CameraScreen()
 
                         flg=0
                     }
