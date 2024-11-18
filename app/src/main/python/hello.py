@@ -96,13 +96,19 @@ def run_yolo_on_base64(base64_string):
     try:
         # Base64文字列を画像に変換
         image_jpg = base64_to_image(base64_string)
-        # return f"{type(image_jpg)}"
+
 
         try:
+            # return f"{image_jpg.shape=}, {image_jpg.dtype=}"
+            # results = model(image_jpg)
+            results = model.predict(image_jpg, classes=[0], conf=0.7, iou=0.8, max_det=1, show_labels=False, show_conf=False,show_boxes=False, save=False)
 
-            results = model(image_jpg)
-            return f"{results}"
-            # 結果が空の場合のチェック
+
+            return f"{len(results[0].boxes)}"
+
+            # return f"結果{results}"
+            #
+            # # 結果が空の場合のチェック
             # if len(results) == 0 or not results[0].boxes:
             # if len(results[0].boxes)==0:
             #     return f"検出された物体はありません{type(results[0])}"
