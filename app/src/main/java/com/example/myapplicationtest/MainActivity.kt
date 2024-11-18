@@ -139,6 +139,7 @@ class MainActivity : ComponentActivity() {
                         //フォルダから写真を選択するE---------------------------------------------------------
 
                     }
+                    var usebitmpa by remember { mutableStateOf<Bitmap?>(null) }
                     if(uri_get != Uri.EMPTY && flg==1){
                         //取得したUriをBitmapに変換
                         val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
@@ -148,12 +149,10 @@ class MainActivity : ComponentActivity() {
 
 
                             val bitmapnotnull = bitmap
-                            val usebitmpa = resizeTo640x640(bitmapnotnull)
+                            usebitmpa = resizeTo640x640(bitmapnotnull)
                             bitmapnotnull.recycle()
 
-                            Box(modifier = Modifier.fillMaxSize()) {
-                                BitmapImagePreview(usebitmpa)
-                            }
+
 
 //                            val context: Context = this
 //                            val assetManager = context.assets   //asettのパス
@@ -187,10 +186,12 @@ class MainActivity : ComponentActivity() {
 
 
                         flg=0
+
+
                     }
                     //画像ピッカー起動E------------------------------------------------------------
 
-
+                    BitmapImagePreview(usebitmpa)
 
                 }
             }
@@ -264,20 +265,25 @@ fun PhotoPicker(onPickPhoto: () -> Unit) {
 }
 
 @Composable
-fun BitmapImagePreview(bitmap: Bitmap) {
-    println("なっとう")
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ){
-        Image(
-            bitmap = bitmap.asImageBitmap(),
-            contentDescription = "Bitmap Image",
+fun BitmapImagePreview(bitmap: Bitmap?) {
+
+    if(bitmap != null){
+        println("nullじゃないよー")
+        Box(
             modifier = Modifier
                 .fillMaxSize()
+        ){
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = "Bitmap Image",
+                modifier = Modifier
+                    .fillMaxSize()
 
-        )
+            )
+        }
     }
+
+
 
 }
 
