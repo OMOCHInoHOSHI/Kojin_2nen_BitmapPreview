@@ -12,11 +12,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Camera
 import androidx.compose.material.icons.rounded.Photo
@@ -26,8 +32,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -212,6 +220,7 @@ class MainActivity : ComponentActivity() {
 
                     BitmapImagePreview(usebitmpa, camera_flg)
 
+
                 }
             }
         }
@@ -306,10 +315,99 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
 
                 )
             }
+
+            textnum()
         }
+
+
     }
 }
 
+@Composable
+fun NumberInputScreen() {
+    var inputValue by remember { mutableStateOf("") } // 入力値を管理する状態
+    var resultValue by remember { mutableStateOf(0) } // 結果を保持する変数
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // 数字入力フィールド
+        TextField(
+            value = inputValue,
+            onValueChange = { newValue ->
+                // 入力値が数字のみの場合に更新
+                if (newValue.all { it.isDigit() }) {
+                    inputValue = newValue
+                }
+            },
+            label = { Text("数字を入力") },
+            placeholder = { Text("例: 123") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ボタンを押したときに変数に渡す
+        Button(
+            onClick = {
+                resultValue = inputValue.toIntOrNull() ?: 0 // 入力値を整数に変換
+            }
+        ) {
+            Text("確定")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // 結果を表示
+        Text(text = "結果: $resultValue")
+    }
+}
+
+@Composable
+fun textnum_width(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+
+    ){
+        var numtext by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = numtext,
+            onValueChange = {numtext = it},
+            label = { Text(text = "例：640") },
+            singleLine = true,  //改行無効
+            modifier = Modifier.padding(20.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = -100.dp, y = 80.dp)
+                .width(100.dp)
+//                .size(100.dp)
+        )
+    }
+}
+
+@Composable
+fun textnum_hight(){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+
+        ){
+        var numtext by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = numtext,
+            onValueChange = {numtext = it},
+            label = { Text(text = "例：640") },
+            singleLine = true,  //改行無効
+            modifier = Modifier.padding(20.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = -100.dp, y = 80.dp)
+                .width(100.dp)
+//                .size(100.dp)
+        )
+    }
+}
 
 //プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)

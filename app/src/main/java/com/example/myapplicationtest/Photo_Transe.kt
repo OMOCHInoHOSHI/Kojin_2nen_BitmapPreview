@@ -112,9 +112,8 @@ fun resizeTonxn(bitmap:Bitmap,wi:Int,he:Int):Bitmap{
         println("幅=$wi x 高さ=$he にリサイズ")
         return Bitmap.createScaledBitmap(bitmap, wi, he, true)
     }
-
 }
-// Bitmapを引数で受け取った大きさに変換する関数S----------------------------------------------------------
+// Bitmapを引数で受け取った大きさに変換する関数E----------------------------------------------------------
 
 
 // Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
