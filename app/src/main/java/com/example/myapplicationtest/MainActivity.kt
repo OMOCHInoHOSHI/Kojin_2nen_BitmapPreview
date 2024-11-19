@@ -221,9 +221,12 @@ class MainActivity : ComponentActivity() {
                     }
                     //画像ピッカー起動E------------------------------------------------------------
 
-
+                    val context: Context = this
                     if (uri_get != Uri.EMPTY && camera_flg == 0){
-                        BitmapImagePreview(usebitmpa, camera_flg)
+                        var prebit = BitmapImagePreview(usebitmpa, camera_flg)
+                        if(prebit != null){
+                            saveBitmap(prebit, context)
+                        }
                         println("再描画")
                     }
 
@@ -301,7 +304,7 @@ fun content(
 //}
 
 @Composable
-fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
+fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
 
         if(bitmap != null){
 
@@ -352,9 +355,15 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
 
             if(flg == 1){
                 useBitmap = resizeTonxn(useBitmap,width,height)
+                return useBitmap
                 flg=0
             }
         }
+    else{
+        return null
+        }
+
+    return null
 }
 
 //@Composable
@@ -470,6 +479,34 @@ fun textnum_hight(height: Int):Int{
     return he
 }
 
+@Composable
+fun saveBitmap(bitmap: Bitmap,context: Context){
+    Box(
+        modifier = Modifier.fillMaxSize()
+    )
+    {
+        Button(
+            onClick = {
+                saveBitmapToJpeg(context, bitmap)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(x = 80.dp)
+        ) {
+            Text("JPG")
+        }
+
+        Button(
+            onClick = {
+                saveBitmapToJpeg(context, bitmap)
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            Text("PIG")
+        }
+    }
+}
+
 //@Composable
 //fun bit_Size_Button(bitmap: Bitmap)
 //
@@ -543,7 +580,10 @@ fun GreetingPreview() {
             }
             IconButton(
                 onClick = {  },
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .offset(x = 80.dp)
+
             ) {
                 Icon(
                     imageVector = Icons.Rounded.PhotoCamera,
