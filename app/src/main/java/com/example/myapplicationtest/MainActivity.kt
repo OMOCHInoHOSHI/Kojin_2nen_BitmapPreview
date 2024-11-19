@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -221,10 +222,9 @@ class MainActivity : ComponentActivity() {
                     //画像ピッカー起動E------------------------------------------------------------
 
 
-                    if (camera_flg == 0){
+                    if (uri_get != Uri.EMPTY && camera_flg == 0){
                         BitmapImagePreview(usebitmpa, camera_flg)
-                        //                        bit_Size_Button(usebitmpa!!)
-
+                        println("再描画")
                     }
 
 
@@ -305,10 +305,12 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
 
         if(bitmap != null){
 
-            var bitmapuse: Bitmap = bitmap
+            var useBitmap by remember { mutableStateOf(bitmap) }
 
-            val width = bitmap.width
-            val height = bitmap.height
+            var width = bitmap.width
+            var height = bitmap.height
+
+            var flg by remember { mutableStateOf(0) }
 
             println("nullじゃないよー")
             Box(
@@ -316,25 +318,43 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
                     .fillMaxSize()
             ){
                 Image(
-                    bitmap = bitmapuse.asImageBitmap(),
+                    bitmap = useBitmap.asImageBitmap(),
                     contentDescription = "Bitmap Image",
                     modifier = Modifier
 //                        .fillMaxSize()
 //                        .align(Alignment.BottomCenter) // 下揃えに設定
+//                        .padding(bottom = 100.dp)           //下の余白
                         .align(Alignment.TopCenter)
-                        .padding(top = 200.dp)           //上の余白
+                        .padding(top = 260.dp)           //上の余白
 
 
                 )
+                Button(
+                    onClick = {
+                        flg=1
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 100.dp)
+                ){
+                    Text("リサイズ")
+                }
             }
 
 //            var width:Int by remember { mutableStateOf(0) }
-//            bitmapuse = resizeTonxn(bitmapuse,textnum_width(width),textnum_hight(height))
-//            textnum_width()
-//            textnum_hight()
+//            if (flg == 1){
+//                useBitmap = resizeTonxn(useBitmap,textnum_width(width),textnum_hight(height))
+//                flg = 0
+//            }
+//            useBitmap = resizeTonxn(useBitmap,textnum_width(width),textnum_hight(height))
+            width = textnum_width(width)
+            height = textnum_hight(height)
+
+            if(flg == 1){
+                useBitmap = resizeTonxn(useBitmap,width,height)
+                flg=0
+            }
         }
-
-
 }
 
 //@Composable
@@ -396,7 +416,7 @@ fun textnum_width(width:Int):Int{
             value = numtext,
             onValueChange = {
                 numtext = it
-                if (numtext != null) {
+                if (numtext.isNotEmpty() && numtext.all { char -> char.isDigit() }) {
                     // 数値が入力された場合のみコールバックを呼び出す
                     wi = it.toInt()
                 }
@@ -406,7 +426,7 @@ fun textnum_width(width:Int):Int{
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
             modifier = Modifier.padding(20.dp)
                 .align(Alignment.TopCenter)
-                .offset(x = -90.dp, y = 80.dp)
+                .offset(x = -90.dp, y = 150.dp)
                 .width(150.dp)
 //                .size(100.dp)
 
@@ -431,7 +451,7 @@ fun textnum_hight(height: Int):Int{
             value = numtext,
             onValueChange = {
                 numtext = it
-                if (numtext != null) {
+                if (numtext.isNotEmpty() && numtext.all { char -> char.isDigit() }) {
                     // 数値が入力された場合のみコールバックを呼び出す
                     he = it.toInt()
                 }
@@ -441,7 +461,7 @@ fun textnum_hight(height: Int):Int{
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
             modifier = Modifier.padding(20.dp)
                 .align(Alignment.TopCenter)
-                .offset(x = 80.dp, y = 80.dp)
+                .offset(x = 80.dp, y = 150.dp)
                 .width(150.dp)
 //                .size(100.dp)
         )
@@ -450,39 +470,36 @@ fun textnum_hight(height: Int):Int{
     return he
 }
 
-@Composable
-fun bit_Size_Button(bitmap: Bitmap)
-
-{
-    var showPreview by remember { mutableStateOf(false) }
-
-    if (bitmap != null){
-
-        val width = bitmap.width
-        val height = bitmap.height
-
-        var wi by remember { mutableStateOf(width) }
-        var he by remember { mutableStateOf(height) }
-
-        Box(modifier = Modifier.fillMaxSize()){
-            resizeTonxn(bitmap,wi,he)
-        }
-        Button(
-            onClick = {
-                showPreview = true
-            }
-        ) {
-            Text("確定")
-        }
-    }
-
-    if (showPreview) { // 状態が true の場合のみ BitmapImagePreview を表示
-        BitmapImagePreview(bitmap, 0)
-    }
-
-
-
-}
+//@Composable
+//fun bit_Size_Button(bitmap: Bitmap)
+//
+//{
+//    var showPreview by remember { mutableStateOf(false) }
+//
+//    if (bitmap != null){
+//
+//        val width = bitmap.width
+//        val height = bitmap.height
+//
+//        var wi by remember { mutableStateOf(width) }
+//        var he by remember { mutableStateOf(height) }
+//
+//        Box(modifier = Modifier.fillMaxSize()){
+//            resizeTonxn(bitmap,wi,he)
+//        }
+//        Button(
+//            onClick = {
+//                showPreview = true
+//            }
+//        ) {
+//            Text("確定")
+//        }
+//    }
+//
+//    if (showPreview) { // 状態が true の場合のみ BitmapImagePreview を表示
+//        BitmapImagePreview(bitmap, 0)
+//    }
+//}
 
 
 //プレビューのためのテストコードS----------------------------------------------------
