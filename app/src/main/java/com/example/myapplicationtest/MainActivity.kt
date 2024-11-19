@@ -56,10 +56,10 @@ class MainActivity : ComponentActivity() {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
                     val localPadding = innerPadding
-                                        Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+//                                        Greeting(
+//                        name = "Android",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
 
 //                    var str by remember { mutableStateOf("あんどろ") }
 //                    Box {
@@ -210,7 +210,7 @@ class MainActivity : ComponentActivity() {
                     }
                     //画像ピッカー起動E------------------------------------------------------------
 
-                    BitmapImagePreview(usebitmpa)
+                    BitmapImagePreview(usebitmpa, camera_flg)
 
                 }
             }
@@ -284,23 +284,28 @@ fun PhotoPicker(onPickPhoto: () -> Unit) {
 }
 
 @Composable
-fun BitmapImagePreview(bitmap: Bitmap?) {
+fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
 
-    if(bitmap != null){
-        println("nullじゃないよー")
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ){
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = "Bitmap Image",
+    if(kameraflg == 0){
+
+        if(bitmap != null){
+            println("nullじゃないよー")
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
+            ){
+                Image(
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = "Bitmap Image",
+                    modifier = Modifier
+                        .fillMaxSize()
 
-            )
+                )
+            }
         }
     }
+
+
 
 
 
