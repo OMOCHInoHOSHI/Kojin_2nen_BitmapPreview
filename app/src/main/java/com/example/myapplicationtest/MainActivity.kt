@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Camera
 import androidx.compose.material.icons.rounded.Photo
@@ -46,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaquo.python.Python.getInstance
@@ -176,9 +178,9 @@ class MainActivity : ComponentActivity() {
                         if(bitmap != null){
 
 
-                            val bitmapnotnull = bitmap
-                            usebitmpa = resizeTo640x640(bitmapnotnull)
-                            bitmapnotnull.recycle()
+//                            val bitmapnotnull = bitmap
+                            usebitmpa = bitmap
+//                            bitmapnotnull.recycle()
 
 
 //                            val context: Context = this
@@ -218,7 +220,13 @@ class MainActivity : ComponentActivity() {
                     }
                     //画像ピッカー起動E------------------------------------------------------------
 
-                    BitmapImagePreview(usebitmpa, camera_flg)
+
+                    if (camera_flg == 0){
+                        BitmapImagePreview(usebitmpa, camera_flg)
+                        //                        bit_Size_Button(usebitmpa!!)
+
+                    }
+
 
 
                 }
@@ -268,43 +276,47 @@ fun content(
     return pickedImageUri
 }
 
-@Composable
-fun Greeting(name: String,
-             onClick: () -> Unit = {},
-             modifier: Modifier = Modifier) {
+//@Composable
+//fun Greeting(name: String,
+//             onClick: () -> Unit = {},
+//             modifier: Modifier = Modifier) {
+//
+//    //ボタンコンポーザー
+//    //ボタンを押すとテキストを表示S---------------------
+//    Button(onClick = onClick) {
+//        //テキストを表示
+//        Text(
+//            text = "Hello $name!",
+//            modifier = modifier
+//        )
+//    }
+//    //ボタンを押すとテキストを表示E---------------------
+//}
 
-    //ボタンコンポーザー
-    //ボタンを押すとテキストを表示S---------------------
-    Button(onClick = onClick) {
-        //テキストを表示
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-    //ボタンを押すとテキストを表示E---------------------
-}
-
-@Composable
-fun PhotoPicker(onPickPhoto: () -> Unit) {
-    Button(onClick = { onPickPhoto() }) {
-        Text(text = "写真を選択")
-    }
-}
+//@Composable
+//fun PhotoPicker(onPickPhoto: () -> Unit) {
+//    Button(onClick = { onPickPhoto() }) {
+//        Text(text = "写真を選択")
+//    }
+//}
 
 @Composable
 fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
 
-    if(kameraflg == 0){
-
         if(bitmap != null){
+
+            var bitmapuse: Bitmap = bitmap
+
+            val width = bitmap.width
+            val height = bitmap.height
+
             println("nullじゃないよー")
             Box(
                 modifier = Modifier
                     .fillMaxSize()
             ){
                 Image(
-                    bitmap = bitmap.asImageBitmap(),
+                    bitmap = bitmapuse.asImageBitmap(),
                     contentDescription = "Bitmap Image",
                     modifier = Modifier
 //                        .fillMaxSize()
@@ -316,98 +328,162 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
                 )
             }
 
-            textnum()
+//            var width:Int by remember { mutableStateOf(0) }
+//            bitmapuse = resizeTonxn(bitmapuse,textnum_width(width),textnum_hight(height))
+//            textnum_width()
+//            textnum_hight()
         }
 
 
-    }
 }
 
+//@Composable
+//fun NumberInputScreen() {
+//    var inputValue by remember { mutableStateOf("") } // 入力値を管理する状態
+//    var resultValue by remember { mutableStateOf(0) } // 結果を保持する変数
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        // 数字入力フィールド
+//        TextField(
+//            value = inputValue,
+//            onValueChange = { newValue ->
+//                // 入力値が数字のみの場合に更新
+//                if (newValue.all { it.isDigit() }) {
+//                    inputValue = newValue
+//                }
+//            },
+//            label = { Text("数字を入力") },
+//            placeholder = { Text("例: 123") },
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // ボタンを押したときに変数に渡す
+//        Button(
+//            onClick = {
+//                resultValue = inputValue.toIntOrNull() ?: 0 // 入力値を整数に変換
+//            }
+//        ) {
+//            Text("確定")
+//        }
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // 結果を表示
+//        Text(text = "結果: $resultValue")
+//    }
+//}
+
+// 幅を入力
 @Composable
-fun NumberInputScreen() {
-    var inputValue by remember { mutableStateOf("") } // 入力値を管理する状態
-    var resultValue by remember { mutableStateOf(0) } // 結果を保持する変数
+fun textnum_width(width:Int):Int{
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // 数字入力フィールド
-        TextField(
-            value = inputValue,
-            onValueChange = { newValue ->
-                // 入力値が数字のみの場合に更新
-                if (newValue.all { it.isDigit() }) {
-                    inputValue = newValue
-                }
-            },
-            label = { Text("数字を入力") },
-            placeholder = { Text("例: 123") },
-            modifier = Modifier.fillMaxWidth()
-        )
+    var wi by remember { mutableStateOf(width) }
+    var numtext by remember { mutableStateOf("") }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // ボタンを押したときに変数に渡す
-        Button(
-            onClick = {
-                resultValue = inputValue.toIntOrNull() ?: 0 // 入力値を整数に変換
-            }
-        ) {
-            Text("確定")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 結果を表示
-        Text(text = "結果: $resultValue")
-    }
-}
-
-@Composable
-fun textnum_width(){
     Box(
         modifier = Modifier.fillMaxSize(),
 
     ){
-        var numtext by remember { mutableStateOf("") }
         OutlinedTextField(
             value = numtext,
-            onValueChange = {numtext = it},
-            label = { Text(text = "例：640") },
+            onValueChange = {
+                numtext = it
+                if (numtext != null) {
+                    // 数値が入力された場合のみコールバックを呼び出す
+                    wi = it.toInt()
+                }
+            },
+            label = { Text(text = "幅：640") },
             singleLine = true,  //改行無効
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
             modifier = Modifier.padding(20.dp)
                 .align(Alignment.TopCenter)
-                .offset(x = -100.dp, y = 80.dp)
-                .width(100.dp)
+                .offset(x = -90.dp, y = 80.dp)
+                .width(150.dp)
 //                .size(100.dp)
+
         )
     }
+
+    return wi
 }
 
+//高さを入力
 @Composable
-fun textnum_hight(){
+fun textnum_hight(height: Int):Int{
+
+    var he by remember { mutableStateOf(height) }
+    var numtext by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier.fillMaxSize(),
-
         ){
         var numtext by remember { mutableStateOf("") }
         OutlinedTextField(
             value = numtext,
-            onValueChange = {numtext = it},
-            label = { Text(text = "例：640") },
+            onValueChange = {
+                numtext = it
+                if (numtext != null) {
+                    // 数値が入力された場合のみコールバックを呼び出す
+                    he = it.toInt()
+                }
+            },
+            label = { Text(text = "高さ：640") },
             singleLine = true,  //改行無効
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
             modifier = Modifier.padding(20.dp)
                 .align(Alignment.TopCenter)
-                .offset(x = -100.dp, y = 80.dp)
-                .width(100.dp)
+                .offset(x = 80.dp, y = 80.dp)
+                .width(150.dp)
 //                .size(100.dp)
         )
     }
+
+    return he
 }
+
+@Composable
+fun bit_Size_Button(bitmap: Bitmap)
+
+{
+    var showPreview by remember { mutableStateOf(false) }
+
+    if (bitmap != null){
+
+        val width = bitmap.width
+        val height = bitmap.height
+
+        var wi by remember { mutableStateOf(width) }
+        var he by remember { mutableStateOf(height) }
+
+        Box(modifier = Modifier.fillMaxSize()){
+            resizeTonxn(bitmap,wi,he)
+        }
+        Button(
+            onClick = {
+                showPreview = true
+            }
+        ) {
+            Text("確定")
+        }
+    }
+
+    if (showPreview) { // 状態が true の場合のみ BitmapImagePreview を表示
+        BitmapImagePreview(bitmap, 0)
+    }
+
+
+
+}
+
 
 //プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)
