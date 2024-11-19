@@ -71,6 +71,7 @@ fun convertToRGB_565(bitmap: Bitmap): Bitmap {
 }
 // 受け取ったBitmapをRGB_565に変換する関数E----------------------------------------------------------------
 
+
 // 受け取ったbitmapを640×640の大きさにリサイズする関数S---------------------------------------------------
 fun resizeTo640x640(bitmap: Bitmap): Bitmap{
 
@@ -92,6 +93,29 @@ fun resizeTo640x640(bitmap: Bitmap): Bitmap{
     }
 }
 // 受け取ったbitmapを640×640の大きさにリサイズする関数E---------------------------------------------------
+
+// Bitmapを引数で受け取った大きさに変換する関数S----------------------------------------------------------
+fun resizeTonxn(bitmap:Bitmap,wi:Int,he:Int):Bitmap{
+
+    val width = bitmap.width
+    val height = bitmap.height
+    val isCorrectShape = (width == wi && height == he)
+
+    // 640×640の大きさにリサイズ
+    if(isCorrectShape){
+        println("幅＝$width、高さ＝$height")
+        println("リサイズしません")
+        //640×640ならそのまま返却
+        return bitmap
+    }
+    else{
+        println("幅=$wi x 高さ=$he にリサイズ")
+        return Bitmap.createScaledBitmap(bitmap, wi, he, true)
+    }
+
+}
+// Bitmapを引数で受け取った大きさに変換する関数S----------------------------------------------------------
+
 
 // Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
 fun bitmapToByteArray(bitmap: Bitmap):ByteArray {
@@ -115,3 +139,4 @@ fun bitmapToBase64(bitmap: Bitmap):String {
     return  base64String
 }
 // BitmapデータからBase64へ変換する関数S------------------------------------------------------
+

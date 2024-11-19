@@ -298,17 +298,16 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int) {
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = "Bitmap Image",
                     modifier = Modifier
-                        .fillMaxSize()
+//                        .fillMaxSize()
+//                        .align(Alignment.BottomCenter) // 下揃えに設定
+                        .align(Alignment.TopCenter)
+                        .padding(top = 200.dp)           //上の余白
+
 
                 )
             }
         }
     }
-
-
-
-
-
 }
 
 
