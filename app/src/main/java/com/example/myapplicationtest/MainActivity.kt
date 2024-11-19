@@ -5,28 +5,21 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Camera
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.material3.Button
@@ -37,7 +30,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,7 +43,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.chaquo.python.Python.getInstance
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
 
 class MainActivity : ComponentActivity() {
@@ -498,11 +489,23 @@ fun saveBitmap(bitmap: Bitmap,context: Context){
 
         Button(
             onClick = {
-                saveBitmapToJpeg(context, bitmap)
+                saveBitmapToPNG(context, bitmap)
             },
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
-            Text("PIG")
+            Text("PNG")
+        }
+
+        Button(
+            onClick = {
+                saveBitmapWebP(context, bitmap)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(x = -90.dp)
+
+        ) {
+            Text("WebP ")
         }
     }
 }
