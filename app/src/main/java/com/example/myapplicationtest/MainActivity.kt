@@ -56,10 +56,10 @@ class MainActivity : ComponentActivity() {
                 //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
                 Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
                     val localPadding = innerPadding
-                    //                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
+                                        Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
 
 //                    var str by remember { mutableStateOf("あんどろ") }
 //                    Box {
@@ -67,6 +67,16 @@ class MainActivity : ComponentActivity() {
 //                            str, onClick = {str = "ボタンがタップされました"},
 //                            modifier = Modifier.padding(innerPadding)   //余白
 //                        )
+//                        IconButton(
+//                            onClick = {  },
+//                            modifier = Modifier.align(Alignment.TopEnd)
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Rounded.PhotoCamera,
+//                                contentDescription = "",
+//                                modifier = Modifier.size(48.dp)
+//                            )
+//                        }
 //                    }
 
                     //カメラ起動S------------------------------------------------------------
@@ -112,19 +122,29 @@ class MainActivity : ComponentActivity() {
                         println("初期URIがヌル")
                     }
 
-                    FilledTonalButton(
-                        onClick = { flg += 1 },
-                        modifier = Modifier
-                            .size(80.dp)
-                            .padding(1.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Photo, // フォルダアイコンに変更
-                            contentDescription = "",
-                            modifier = Modifier.size(ButtonDefaults.IconSize)
-                        )
-                        //Text(text = "カメラ起動")
+                    if(camera_flg == 0){
+                        Box(
+                            modifier = Modifier
+//                            .fillMaxSize()
+                                .padding(16.dp)
+                        ){
+                            FilledTonalButton(
+                                onClick = { flg += 1 },
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .padding(1.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Photo, // フォルダアイコンに変更
+                                    contentDescription = "",
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                                //Text(text = "画像を選択")
+                            }
+                        }
                     }
+
+
                     if(flg == 1){
                         //フォルダから写真を選択するS---------------------------------------------------------
                         uri_get=
@@ -151,7 +171,6 @@ class MainActivity : ComponentActivity() {
                             val bitmapnotnull = bitmap
                             usebitmpa = resizeTo640x640(bitmapnotnull)
                             bitmapnotnull.recycle()
-
 
 
 //                            val context: Context = this
