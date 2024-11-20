@@ -171,7 +171,7 @@ class MainActivity : ComponentActivity() {
 
 
 //                            val bitmapnotnull = bitmap
-                            usebitmpa = bitmap
+                            usebitmpa = convertToARGB8888(bitmap)
 //                            bitmapnotnull.recycle()
 
 

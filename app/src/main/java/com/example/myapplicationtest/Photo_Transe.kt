@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -139,3 +140,17 @@ fun bitmapToBase64(bitmap: Bitmap):String {
 }
 // BitmapデータからBase64へ変換する関数S------------------------------------------------------
 
+// Bitmapを90度右回転する関数S-------------------------------------------------------------------
+fun spin90Bitmap_light(bitmap: Bitmap): Bitmap{
+
+    // Matrixオブジェクトを作成して90度回転を設定
+    val matrix = Matrix()
+
+    // 新しいbitmapに変換
+    val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+
+    return rotatedBitmap
+
+}
+// Bitmapを90度右回転する関数E-------------------------------------------------------------------
