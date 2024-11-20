@@ -213,11 +213,11 @@ class MainActivity : ComponentActivity() {
                     //画像ピッカー起動E------------------------------------------------------------
 
                     val context: Context = this
-                    if (uri_get != Uri.EMPTY && camera_flg == 0){
-                        var prebit = BitmapImagePreview(usebitmpa, camera_flg)
-                        if(prebit != null){
-                            saveBitmap(prebit, context)
-                        }
+                    if (uri_get != Uri.EMPTY && camera_flg == 0 && usebitmpa != null){
+                        usebitmpa = BitmapImagePreview(usebitmpa, context)
+//                        if(prebit != null){
+//                            saveBitmap(usebitmpa!!, context)
+//                        }
                         println("再描画")
                     }
 
@@ -295,7 +295,7 @@ fun content(
 //}
 
 @Composable
-fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
+fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
 
         if(bitmap != null){
 
@@ -305,6 +305,8 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
             var height = bitmap.height
 
             var flg by remember { mutableStateOf(0) }
+
+            saveBitmap(useBitmap,context)
 
             println("nullじゃないよー")
             Box(
@@ -361,10 +363,11 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
             }
         }
     else{
+        println("イメージプレビュー")
         return null
         }
 
-    return null
+    return bitmap
 }
 
 //@Composable
