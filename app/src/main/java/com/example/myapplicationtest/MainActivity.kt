@@ -317,7 +317,7 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
                     modifier = Modifier
 //                        .fillMaxSize()
 //                        .align(Alignment.BottomCenter) // 下揃えに設定
-//                        .padding(bottom = 100.dp)           //下の余白
+                        .padding(bottom = 60.dp)           //下の余白
                         .align(Alignment.TopCenter)
                         .padding(top = 260.dp)           //上の余白
 
