@@ -143,11 +143,14 @@ fun bitmapToBase64(bitmap: Bitmap):String {
 // Bitmapを90度右回転する関数S-------------------------------------------------------------------
 fun spin90Bitmap_light(bitmap: Bitmap): Bitmap{
 
+    println("回転")
+
     // Matrixオブジェクトを作成して90度回転を設定
     val matrix = Matrix()
+    matrix.postRotate(90f)
 
     // 新しいbitmapに変換
-    val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, false)
 
 
     return rotatedBitmap

@@ -333,6 +333,16 @@ fun BitmapImagePreview(bitmap: Bitmap?,kameraflg: Int):Bitmap? {
                 ){
                     Text("リサイズ")
                 }
+
+
+                Button(
+                    onClick = {useBitmap = spin90Bitmap_light(useBitmap)},
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 50.dp)
+                ){
+                    Text("回転")
+                }
             }
 
 //            var width:Int by remember { mutableStateOf(0) }
