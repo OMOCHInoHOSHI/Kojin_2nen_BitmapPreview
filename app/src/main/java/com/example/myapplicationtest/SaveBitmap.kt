@@ -37,7 +37,7 @@ fun saveBitmapToJpeg(context: Context, bitmap: Bitmap): Boolean {
                 outputStream.flush()
 
                 // 保存に成功した場合は、UIスレッドでToastを表示
-                Toast.makeText(context, "Image saved successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "JPEGで保存", Toast.LENGTH_SHORT).show()
                 return true
             }
         } ?: run {
@@ -79,7 +79,7 @@ fun saveBitmapToPNG(context: Context, bitmap: Bitmap): Boolean {
                 outputStream.flush()
 
                 // 保存に成功した場合は、UIスレッドでToastを表示
-                Toast.makeText(context, "Image saved successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "PNGで保存", Toast.LENGTH_SHORT).show()
                 return true
             }
         } ?: run {
@@ -121,7 +121,7 @@ fun saveBitmapWebP (context: Context, bitmap: Bitmap): Boolean {
                 outputStream.flush()
 
                 // 保存に成功した場合は、UIスレッドでToastを表示
-                Toast.makeText(context, "Image saved successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "WebPで保存", Toast.LENGTH_SHORT).show()
                 return true
             }
         } ?: run {
