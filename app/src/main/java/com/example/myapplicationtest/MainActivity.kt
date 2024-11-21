@@ -513,7 +513,7 @@ fun saveBitmap(bitmap: Bitmap,context: Context, share:Boolean){
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .offset(x = 80.dp)
+                .offset(x = 85.dp)
         ) {
             Text("JPEG")
         }
