@@ -12,6 +12,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -29,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.semantics.Role.Companion.Switch
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -270,29 +273,38 @@ fun content(
     return pickedImageUri
 }
 
-//@Composable
-//fun Greeting(name: String,
-//             onClick: () -> Unit = {},
-//             modifier: Modifier = Modifier) {
-//
-//    //ボタンコンポーザー
-//    //ボタンを押すとテキストを表示S---------------------
-//    Button(onClick = onClick) {
-//        //テキストを表示
-//        Text(
-//            text = "Hello $name!",
-//            modifier = modifier
-//        )
-//    }
-//    //ボタンを押すとテキストを表示E---------------------
-//}
+@Composable
+fun shareSwitch(): Boolean {
+    val checkedState = remember { mutableStateOf(false) }
 
-//@Composable
-//fun PhotoPicker(onPickPhoto: () -> Unit) {
-//    Button(onClick = { onPickPhoto() }) {
-//        Text(text = "写真を選択")
-//    }
-//}
+    Box(
+        modifier = Modifier.fillMaxSize() // Boxの中で要素の配置を調整
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .align(Alignment.TopCenter) // Box内で上部中央に配置
+                .padding(top = 20.dp) // 上の余白
+        ) {
+            // Switchの隣に「シェア」と表示
+            Text(
+                text = "シェア",
+
+            )
+
+            Switch(
+                modifier = Modifier.padding(start = 10.dp), // Switchとテキストの間に少し間隔を空ける
+                checked = checkedState.value,
+                onCheckedChange = { checkedState.value = it }
+
+            )
+        }
+    }
+
+    return checkedState.value // Switchの状態を返す
+}
+
+
 
 @Composable
 fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
@@ -306,7 +318,8 @@ fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
 
             var flg by remember { mutableStateOf(0) }
 
-            saveBitmap(useBitmap,context)
+            var shareflg = shareSwitch()
+            saveBitmap(useBitmap,context,shareflg)
 
             println("nullじゃないよー")
             Box(
@@ -331,7 +344,7 @@ fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
                     },
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(top = 100.dp)
+                        .padding(top = 120.dp)
                 ){
                     Text("リサイズ")
                 }
@@ -341,7 +354,7 @@ fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
                     onClick = {useBitmap = spin90Bitmap_light(useBitmap)},
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(top = 50.dp)
+                        .padding(top = 70.dp)
                 ){
                     Text("回転")
                 }
@@ -484,25 +497,35 @@ fun textnum_hight(height: Int):Int{
 }
 
 @Composable
-fun saveBitmap(bitmap: Bitmap,context: Context){
+fun saveBitmap(bitmap: Bitmap,context: Context, share:Boolean){
     Box(
         modifier = Modifier.fillMaxSize()
     )
     {
         Button(
             onClick = {
-                saveBitmapToJpeg(context, bitmap)
+                if(share){
+                    saveBitmapToJpeg(context, bitmap, true)
+                }
+                else{
+                    saveBitmapToJpeg(context, bitmap)
+                }
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .offset(x = 80.dp)
         ) {
-            Text("JPG")
+            Text("JPEG")
         }
 
         Button(
             onClick = {
-                saveBitmapToPNG(context, bitmap)
+                if(share){
+                    saveBitmapToPNG(context, bitmap, true)
+                }
+                else{
+                    saveBitmapToPNG(context, bitmap)
+                }
             },
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
@@ -511,8 +534,12 @@ fun saveBitmap(bitmap: Bitmap,context: Context){
 
         Button(
             onClick = {
-//                saveBitmapWebP(context, bitmap)
-                saveBitmapWebP(context, bitmap, true)
+                if(share){
+                    saveBitmapWebP(context, bitmap, true)
+                }
+                else{
+                    saveBitmapWebP(context, bitmap)
+                }
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
