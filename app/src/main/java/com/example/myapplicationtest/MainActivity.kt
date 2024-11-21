@@ -511,7 +511,8 @@ fun saveBitmap(bitmap: Bitmap,context: Context){
 
         Button(
             onClick = {
-                saveBitmapWebP(context, bitmap)
+//                saveBitmapWebP(context, bitmap)
+                saveBitmapWebP(context, bitmap, true)
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
