@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.AaptOptions
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,8 +10,15 @@ plugins {
 android {
     namespace = "com.example.myapplicationtest"
     compileSdk = 34
-    //
-    flavorDimensions += "pyVersyon"//追加
+
+    // Pytnonにより追加
+    flavorDimensions += "pyVersion"
+    productFlavors{
+        create("py38"){dimension = "pyVersion"}
+    }
+
+
+    androidResources
 
     defaultConfig {
         //
@@ -17,7 +26,7 @@ android {
             abiFilters += listOf("arm64-v8a","x86_64")
         }//追加
         applicationId = "com.example.myapplicationtest"
-        minSdk = 34
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -55,6 +64,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets")
+            }
+        }
+    }
 
 }
 
@@ -85,6 +101,14 @@ chaquopy{
             /* requirements.txtを指定することも可能
             install("-r", "requirements.txt")
             */
+
+            //install("yolov10")
+            //install("ultralytics")
+            //install("ultralytics-thop")
+
+//            install("cv2")
+//            install("base64")
+//            install("Pillow")
         }
     }
     productFlavors{}
@@ -94,6 +118,38 @@ chaquopy{
 
 
 dependencies {
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.appcompat)
+    //カメラライブラリS---------------------------------------------------------
+    val cameraxVersion = "1.3.4"    //変数
+    implementation("androidx.camera:camera-core:${cameraxVersion}")
+    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
+    implementation("androidx.camera:camera-video:${cameraxVersion}")
+    implementation("androidx.camera:camera-view:${cameraxVersion}")
+    implementation("androidx.camera:camera-extensions:${cameraxVersion}")
+    //カメラライブラリE---------------------------------------------------------
+
+    //アイコン関係S----------------------------------------------------------------------
+    //implementation ("androidx.compose.material3:material3:1.3.0")
+    //implementation("androidx.compose.material:material-icons-core:1.7.4")
+    implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
+    //implementation("androidx.compose.material:material-icons-extended-android:1.7.5")
+    //アイコン関係E----------------------------------------------------------------------
+
+    //tensorflow-lite関係S----------------------------------------------------------
+    implementation ("org.tensorflow:tensorflow-lite:2.13.0")
+//    implementation ("org.tensorflow:tensorflow-lite-support:0.3.0")
+//    implementation ("org.tensorflow:tensorflow-lite-task-vision:2.13.0")
+    //tensorflow-lite関係E----------------------------------------------------------
+
+    //registerForActivityResultを使うS--------------------------------------------------
+//    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha03")
+    //registerForActivityResultを使うE--------------------------------------------------
+
+    //PhotoPicker用で追加
+    implementation("androidx.activity:activity-ktx:1.9.3")
 
     implementation("androidx.compose.material:material-icons-extended-android:1.7.4")
     implementation("androidx.activity:activity-ktx:1.9.3")

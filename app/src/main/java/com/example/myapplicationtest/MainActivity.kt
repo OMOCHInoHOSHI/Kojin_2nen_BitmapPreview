@@ -8,170 +8,250 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Photo
+import androidx.compose.material.icons.rounded.PhotoCamera
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.semantics.Role.Companion.Switch
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.chaquo.python.Python.*
 import com.example.myapplicationtest.ui.theme.MyApplicationTestTheme
-import androidx.compose.material.icons.rounded.Photo
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64
-//import java.util.Base64
-import android.content.ContentResolver
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.os.Build
-import android.provider.MediaStore
-import androidx.compose.runtime.Composable
-//import androidx.compose.ui.text.LinkAnnotation
-import com.chaquo.python.Python
-import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
-
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
+        //enableEdgeToEdge()    //スマホの端を無くす
+
+        // ContentResolverを取得
+        val content_Resolver = contentResolver
         setContent {
-
-            //python追加-------------------------------------------------------------
-            val py = getInstance()
-            val module = py.getModule("hello")
-            val txt1 = module.callAttr("hello_world")
-            val txt2 = module.callAttr("set_text", "Good Morning")
-            println(txt1)   // logに出力。Logcatに出力される
-            println(txt2)   // logに出力。Logcatに出力される
-
-            val num1 = module.callAttr("test_numpy")
-            val num2 = module.callAttr("test_pandas")
-            println(num1)
-            println(num2)
-
-            // モデルをロードする
-            val modelerode = module.callAttr("model_Rode")
-            println(modelerode)
-
-
-            //追加-------------------------------------------------------------
             MyApplicationTestTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                //Surfaceは content colorを決める役割がある   //ScaffoldにSurfaceが含まれる
+                Scaffold(modifier = Modifier.fillMaxWidth()) { innerPadding ->
+                    val localPadding = innerPadding
+//                                        Greeting(
+//                        name = "Android",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
 
-                //画像ピッカー起動S------------------------------------------------------------
-                var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
-                //uri_getに取得したuriを格納する
-                var uri_get by remember { mutableStateOf(Uri.EMPTY) }
-                //確認
-                if(uri_get != Uri.EMPTY){
-                    println("初期URIがヌルではない")
-                }
-                else{
-                    println("初期URIがヌル")
-                }
+//                    var str by remember { mutableStateOf("あんどろ") }
+//                    Box {
+//                        Greeting(
+//                            str, onClick = {str = "ボタンがタップされました"},
+//                            modifier = Modifier.padding(innerPadding)   //余白
+//                        )
+//                        IconButton(
+//                            onClick = {  },
+//                            modifier = Modifier.align(Alignment.TopEnd)
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Rounded.PhotoCamera,
+//                                contentDescription = "",
+//                                modifier = Modifier.size(48.dp)
+//                            )
+//                        }
+//                    }
 
-                FilledTonalButton(
-                    onClick = { flg += 1 },
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(1.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Photo, // フォルダアイコンに変更
-                        contentDescription = "",
-                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                    //カメラ起動S------------------------------------------------------------
+
+                    var camera_flg by remember { mutableIntStateOf(0) }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
                     )
-                    //Text(text = "カメラ起動")
-                }
-                if(flg == 1){
-                    //フォルダから写真を選択するS---------------------------------------------------------
-                    uri_get=
-                        content(
-                            //何も選択しない場合
-                            onNothingSelected = {
-                                // Handle nothing selected, e.g., show a message or log an event
-                                Log.d("MainActivity", "No image selected")
-                                flg=0
+                    {
+                        LaunchedEffect(key1 = true) {
+
+                        }
+                        IconButton(
+                            onClick = { camera_flg=1 },
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.PhotoCamera,
+                                contentDescription = "",
+                                modifier = Modifier.size(48.dp)
+                            )
+                        }
+                    }
+                    if(camera_flg==1){
+//                        CameraScreen()
+                        camera_flg = CameraScreen_2(camera_flg)
+//                        camera_flg=0
+                    }
+                    //カメラ起動E------------------------------------------------------------
+
+
+                    //画像ピッカー起動S------------------------------------------------------------
+                    var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
+                    //uri_getに取得したuriを格納する
+                    var uri_get by remember { mutableStateOf(Uri.EMPTY) }
+                    //確認
+                    if(uri_get != Uri.EMPTY){
+                        println("初期URIがヌルではない")
+                    }
+                    else{
+                        println("初期URIがヌル")
+                    }
+
+                    if(camera_flg == 0){
+                        Box(
+                            modifier = Modifier
+//                            .fillMaxSize()
+                                .padding(16.dp)
+                        ){
+                            FilledTonalButton(
+                                onClick = { flg += 1 },
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .padding(1.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Photo, // フォルダアイコンに変更
+                                    contentDescription = "",
+                                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                                )
+                                //Text(text = "画像を選択")
                             }
-                        )
-                    //フォルダから写真を選択するE---------------------------------------------------------
-
-                }
-                //画像のuriが取得できた場合
-                if((uri_get != Uri.EMPTY) && flg==1){
-
-                    //取得したUriをBitmapに変換
-                    val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
-                    println("uriのbitmap$bitmap")
-
-                    if(bitmap != null){
-
-                        val bitmapnotnull = bitmap  //nllでないbitmap
-                        println("nullじゃないbitmap$bitmapnotnull")
-                        val context: Context = this
-                        val assetManager = context.assets   //asettのパス
-
-                        //bitmapのサイズをリサイズする
-                        var use_bitmap  = resizeTo640x640(bitmapnotnull)
-
-                        //bitmap RGB_565に変換
-                        use_bitmap  = convertToRGB_565(use_bitmap)
-
-
-
-                        // BitmapデータからBase64へ変換
-                        val base64_array = bitmapToBase64(use_bitmap)
-
-                        // 型確認
-                        val C_bit = module.callAttr("bit_rode",base64_array)
-                        println(C_bit)
-
-
-                        // 結果
-                        val result = module.callAttr("run_yolo_on_base64",base64_array)
-                        println(result)
-
-
-
-                        // base64の画像をpythonに渡して変換
-
+                        }
                     }
 
 
-                    flg=0
+                    if(flg == 1){
+                        //フォルダから写真を選択するS---------------------------------------------------------
+                        uri_get=
+                            content(
+                                //何も選択しない場合
+                                onNothingSelected = {
+                                    // Handle nothing selected, e.g., show a message or log an event
+                                    Log.d("MainActivity", "No image selected")
+                                    flg=0
+                                }
+                            )
+                        //フォルダから写真を選択するE---------------------------------------------------------
+
+                    }
+                    var usebitmpa by remember { mutableStateOf<Bitmap?>(null) }
+                    if(uri_get != Uri.EMPTY && flg==1){
+                        //取得したUriをBitmapに変換
+                        val bitmap: Bitmap? = uri_get.getBitmapOrNull(contentResolver)
+                        println(bitmap)
+
+                        if(bitmap != null){
+
+
+//                            val bitmapnotnull = bitmap
+                            usebitmpa = convertToARGB8888(bitmap)
+//                            bitmapnotnull.recycle()
+
+
+//                            val context: Context = this
+//                            val assetManager = context.assets   //asettのパス
+//                            val modelPath = "yolov10n_float32.tflite"
+//                            val inputStream = assetManager.open(modelPath)
+//                            println(inputStream)
+//                            println("もでるぱす")
+
+                            //val recognizer = YOLOv10ImageRecognizer(context, modelPath)
+
+
+                            // recognizeImageメソッドを呼び出して認識結果を取得
+//                            try {
+//                                val recognizer = YOLOv10ImageRecognizer(inputStream)
+//                                val results = recognizer.recognizeImage(bitmapnotnull)
+//                                results.forEach { result ->
+//                                    println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
+//                                }
+//                            } catch (e: Exception) {
+//                                Log.e("MainActivity", "Error during image recognition", e)
+//                            }
+
+                            // 結果を出力
+//                            results.forEach { result ->
+//                                println("認識結果 - X: ${result.x}, Y: ${result.y}, Width: ${result.width}, Height: ${result.height}, Confidence: ${result.confidence}")
+//                            }
+                        }
+                        //Bitmapを変換する関数呼び出し
+                        // transe_Bitmap(bitmap)
+
+
+
+                        flg=0
+
+
+                    }
+                    //画像ピッカー起動E------------------------------------------------------------
+
+                    val context: Context = this
+                    if (uri_get != Uri.EMPTY && camera_flg == 0 && usebitmpa != null){
+                        usebitmpa = BitmapImagePreview(usebitmpa, context)
+//                        if(prebit != null){
+//                            saveBitmap(usebitmpa!!, context)
+//                        }
+                        println("再描画")
+                    }
+
+
+
                 }
-                //画像ピッカー起動E------------------------------------------------------------
             }
         }
+        //python追加-------------------------------------------------------------
+//        val py = getInstance()
+//        val module = py.getModule("hello")
+//        val txt1 = module.callAttr("hello_world")
+//        val txt2 = module.callAttr("set_text", "Good Morning")
+//        println(txt1)   // logに出力。Logcatに出力される
+//        println(txt2)   // logに出力。Logcatに出力される
+//
+//        val num1 = module.callAttr("test_numpy")
+//        val num2 = module.callAttr("test_pandas")
+//        println(num1)
+//        println(num2)
 
+//        val tex3 = module.callAttr("hellow_yolo")
+//        println(tex3)
+        //追加-------------------------------------------------------------
     }
 }
 
 @Composable
 fun content(
     onNothingSelected: () -> Unit
-): Uri?{
+):Uri?{
     //初期値に空のURI
     var pickedImageUri by remember { mutableStateOf(Uri.EMPTY) }
     val launcher = rememberLauncherForActivityResult(
@@ -194,119 +274,369 @@ fun content(
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun shareSwitch(): Boolean {
+    val checkedState = remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier.fillMaxSize() // Boxの中で要素の配置を調整
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .align(Alignment.TopCenter) // Box内で上部中央に配置
+                .padding(top = 20.dp) // 上の余白
+        ) {
+            // Switchの隣に「シェア」と表示
+            Text(
+                text = "シェア",
+
+            )
+
+            Switch(
+                modifier = Modifier.padding(start = 10.dp), // Switchとテキストの間に少し間隔を空ける
+                checked = checkedState.value,
+                onCheckedChange = { checkedState.value = it }
+
+            )
+        }
+    }
+
+    return checkedState.value // Switchの状態を返す
 }
 
-////拡張関数　//クラスを新しい機能で拡張
-////Bitmapを返却する関数S------------------------------------------------------------------------------------
-//fun Uri.getBitmapOrNull(contentResolver: ContentResolver): Bitmap? {
-//    return kotlin.runCatching {
-//        //Build.VERSION.SDK_INTでAPIレベルを取得   //Build.VERSION_CODES.QはAPIレベル29(Android10)
-//        //現在のAndroidのバージョンがAndroid 10以上かどうか
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            val source = ImageDecoder.createSource(contentResolver, this)
-//            ImageDecoder.decodeBitmap(source)
-//        } else {
-//            MediaStore.Images.Media.getBitmap(contentResolver, this)
-//        }
-//    }.getOrNull()
-//}
-////Bitmapを返却する関数E------------------------------------------------------------------------------------
-//
-////受け取ったBitmapをARGB_8888に変換する関数S--------------------------------------------------------------
-//fun convertToARGB8888(bitmap: Bitmap): Bitmap {
-//    //ARGB_8888ではないなら変換
-//    if (bitmap.config != Bitmap.Config.ARGB_8888) {
-//        println("ARGB_8888に変換")
-//
-//        //ARGB_8888で初期化して生成
-//        val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
-//
-//        //元のBitmapは解放
-//        bitmap.recycle()
-//
-//        return newBitmap
-//    } else {
-//        println("ARGB_8888でした")
-//        return bitmap
-//    }
-//}
-////受け取ったBitmapをARGB_8888に変換する関数E--------------------------------------------------------------
-//
-////受け取ったBitmapをRGB_565に変換する関数S----------------------------------------------------------------
-//fun convertToRGB_565(bitmap: Bitmap): Bitmap {
-//    //ARGB_8888ではないなら変換
-//    if (bitmap.config != Bitmap.Config.RGB_565) {
-//        println("RGB_565に変換")
-//
-//        //ARGB_8888で初期化して生成
-//        val newBitmap = bitmap.copy(Bitmap.Config.RGB_565, false)
-//
-//        //元のBitmapは解放
-//        bitmap.recycle()
-//
-//        return newBitmap
-//    } else {
-//        println("RGB_565でした")
-//        return bitmap
-//    }
-//}
-//// 受け取ったBitmapをRGB_565に変換する関数E----------------------------------------------------------------
-//
-//// 受け取ったbitmapを640×640の大きさにリサイズする関数S---------------------------------------------------
-//fun resizeTo640x640(bitmap: Bitmap): Bitmap{
-//
-//    val width = bitmap.width
-//    val height = bitmap.height
-//    val isCorrectShape = (width == 640 && height == 640)
-//
-//    // 640×640の大きさにリサイズ
-//    if(isCorrectShape){
-//        println("幅＝$width、高さ＝$height")
-//        println("リサイズしません")
-//        //640×640ならそのまま返却
-//        return bitmap
-//    }
-//    else{
-//        println("幅＝$width、高さ＝$height")
-//        println("リサイズします")
-//        return Bitmap.createScaledBitmap(bitmap, 640, 640, true)
-//    }
-//}
-//// 受け取ったbitmapを640×640の大きさにリサイズする関数E---------------------------------------------------
-//
-//// Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
-//fun bitmapToByteArray(bitmap: Bitmap):ByteArray {
-//
-//    val byteArrayOutputStream = ByteArrayOutputStream()
-//    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-//    val byteArray = byteArrayOutputStream.toByteArray()
-//
-//    return byteArray
-//}
-//// Bitmapクラスを画像フォーマットのbitmapに変換する関数E--------------------------------------------------
-//
-//// BitmapデータからBase64へ変換する関数S------------------------------------------------------
-//fun bitmapToBase64(bitmap: Bitmap):String {
-//    //bitmapからByteArrayに変換
-//    val bytearray = bitmapToByteArray(bitmap)
-//
-//    // ByteArrayをBase64文字列に変換
-//    val base64String = Base64.encodeToString(bytearray, Base64.DEFAULT)
-//    Base64.encodeToString(bytearray, Base64.DEFAULT)
-//
-//    return  base64String
-//}
-//// BitmapデータからBase64へ変換する関数S------------------------------------------------------
 
+
+@Composable
+fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
+
+        if(bitmap != null){
+
+            var useBitmap by remember { mutableStateOf(bitmap) }
+
+            var width = bitmap.width
+            var height = bitmap.height
+
+            var flg by remember { mutableStateOf(0) }
+
+            var shareflg = shareSwitch()
+            saveBitmap(useBitmap,context,shareflg)
+
+            println("nullじゃないよー")
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ){
+                Image(
+                    bitmap = useBitmap.asImageBitmap(),
+                    contentDescription = "Bitmap Image",
+                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .align(Alignment.BottomCenter) // 下揃えに設定
+                        .padding(bottom = 60.dp)           //下の余白
+                        .align(Alignment.TopCenter)
+                        .padding(top = 260.dp)           //上の余白
+
+
+                )
+                Button(
+                    onClick = {
+                        flg=1
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 120.dp)
+                ){
+                    Text("リサイズ")
+                }
+
+
+                Button(
+                    onClick = {useBitmap = spin90Bitmap_light(useBitmap)},
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 70.dp)
+                ){
+                    Text("回転")
+                }
+            }
+
+//            var width:Int by remember { mutableStateOf(0) }
+//            if (flg == 1){
+//                useBitmap = resizeTonxn(useBitmap,textnum_width(width),textnum_hight(height))
+//                flg = 0
+//            }
+//            useBitmap = resizeTonxn(useBitmap,textnum_width(width),textnum_hight(height))
+            width = textnum_width(width)
+            height = textnum_hight(height)
+
+            if(flg == 1){
+                useBitmap = resizeTonxn(useBitmap,width,height)
+                return useBitmap
+                flg=0
+            }
+        }
+    else{
+        println("イメージプレビュー")
+        return null
+        }
+
+    return bitmap
+}
+
+//@Composable
+//fun NumberInputScreen() {
+//    var inputValue by remember { mutableStateOf("") } // 入力値を管理する状態
+//    var resultValue by remember { mutableStateOf(0) } // 結果を保持する変数
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        // 数字入力フィールド
+//        TextField(
+//            value = inputValue,
+//            onValueChange = { newValue ->
+//                // 入力値が数字のみの場合に更新
+//                if (newValue.all { it.isDigit() }) {
+//                    inputValue = newValue
+//                }
+//            },
+//            label = { Text("数字を入力") },
+//            placeholder = { Text("例: 123") },
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // ボタンを押したときに変数に渡す
+//        Button(
+//            onClick = {
+//                resultValue = inputValue.toIntOrNull() ?: 0 // 入力値を整数に変換
+//            }
+//        ) {
+//            Text("確定")
+//        }
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        // 結果を表示
+//        Text(text = "結果: $resultValue")
+//    }
+//}
+
+// 幅を入力
+@Composable
+fun textnum_width(width:Int):Int{
+
+    var wi by remember { mutableStateOf(width) }
+    var numtext by remember { mutableStateOf("") }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+
+    ){
+        OutlinedTextField(
+            value = numtext,
+            onValueChange = {
+                numtext = it
+                if (numtext.isNotEmpty() && numtext.all { char -> char.isDigit() }) {
+                    // 数値が入力された場合のみコールバックを呼び出す
+                    wi = it.toInt()
+                }
+            },
+            label = { Text(text = "幅：640") },
+            singleLine = true,  //改行無効
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
+            modifier = Modifier.padding(20.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = -90.dp, y = 150.dp)
+                .width(150.dp)
+//                .size(100.dp)
+
+        )
+    }
+
+    return wi
+}
+
+//高さを入力
+@Composable
+fun textnum_hight(height: Int):Int{
+
+    var he by remember { mutableStateOf(height) }
+    var numtext by remember { mutableStateOf("") }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        ){
+        var numtext by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = numtext,
+            onValueChange = {
+                numtext = it
+                if (numtext.isNotEmpty() && numtext.all { char -> char.isDigit() }) {
+                    // 数値が入力された場合のみコールバックを呼び出す
+                    he = it.toInt()
+                }
+            },
+            label = { Text(text = "高さ：640") },
+            singleLine = true,  //改行無効
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),  //数値のみ
+            modifier = Modifier.padding(20.dp)
+                .align(Alignment.TopCenter)
+                .offset(x = 80.dp, y = 150.dp)
+                .width(150.dp)
+//                .size(100.dp)
+        )
+    }
+
+    return he
+}
+
+@Composable
+fun saveBitmap(bitmap: Bitmap,context: Context, share:Boolean){
+    Box(
+        modifier = Modifier.fillMaxSize()
+    )
+    {
+        Button(
+            onClick = {
+                if(share){
+                    saveBitmapToJpeg(context, bitmap, true)
+                }
+                else{
+                    saveBitmapToJpeg(context, bitmap)
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(x = 85.dp)
+        ) {
+            Text("JPEG")
+        }
+
+        Button(
+            onClick = {
+                if(share){
+                    saveBitmapToPNG(context, bitmap, true)
+                }
+                else{
+                    saveBitmapToPNG(context, bitmap)
+                }
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            Text("PNG")
+        }
+
+        Button(
+            onClick = {
+                if(share){
+                    saveBitmapWebP(context, bitmap, true)
+                }
+                else{
+                    saveBitmapWebP(context, bitmap)
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(x = -90.dp)
+
+        ) {
+            Text("WebP ")
+        }
+    }
+}
+
+//@Composable
+//fun bit_Size_Button(bitmap: Bitmap)
+//
+//{
+//    var showPreview by remember { mutableStateOf(false) }
+//
+//    if (bitmap != null){
+//
+//        val width = bitmap.width
+//        val height = bitmap.height
+//
+//        var wi by remember { mutableStateOf(width) }
+//        var he by remember { mutableStateOf(height) }
+//
+//        Box(modifier = Modifier.fillMaxSize()){
+//            resizeTonxn(bitmap,wi,he)
+//        }
+//        Button(
+//            onClick = {
+//                showPreview = true
+//            }
+//        ) {
+//            Text("確定")
+//        }
+//    }
+//
+//    if (showPreview) { // 状態が true の場合のみ BitmapImagePreview を表示
+//        BitmapImagePreview(bitmap, 0)
+//    }
+//}
+
+
+//プレビューのためのテストコードS----------------------------------------------------
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApplicationTestTheme {
-        Greeting("Android")
+//        var str by remember { mutableStateOf("あんどろ") }
+//
+////        var moji="ボタンがタップされました-"
+//        var moji= stringResource(id=R.string.app_name)
+//
+//        Box {
+//            Greeting(str, onClick = {str = moji})
+//        }
+
+//        var flg by remember { mutableIntStateOf(0) } // flg の状態を管理する
+//
+//        FilledTonalButton(
+//            onClick = { flg = 1 },
+//            modifier = Modifier
+//                .size(80.dp)
+//                .padding(8.dp)
+//
+//        ) {
+//            Text(text = "カメラ起動")
+//        }
+//        if(flg == 1){
+//            //カメラ権限呼び出し
+//            CameraScreen()
+//        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        )
+        {
+            LaunchedEffect(key1 = true) {
+
+            }
+            IconButton(
+                onClick = {  },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .offset(x = 80.dp)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.PhotoCamera,
+                    contentDescription = "",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
+        }
+
+
     }
 }

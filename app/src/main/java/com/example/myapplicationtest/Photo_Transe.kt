@@ -1,10 +1,10 @@
 package com.example.myapplicationtest
 
-
 import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -72,6 +72,7 @@ fun convertToRGB_565(bitmap: Bitmap): Bitmap {
 }
 // 受け取ったBitmapをRGB_565に変換する関数E----------------------------------------------------------------
 
+
 // 受け取ったbitmapを640×640の大きさにリサイズする関数S---------------------------------------------------
 fun resizeTo640x640(bitmap: Bitmap): Bitmap{
 
@@ -93,6 +94,28 @@ fun resizeTo640x640(bitmap: Bitmap): Bitmap{
     }
 }
 // 受け取ったbitmapを640×640の大きさにリサイズする関数E---------------------------------------------------
+
+// Bitmapを引数で受け取った大きさに変換する関数S----------------------------------------------------------
+fun resizeTonxn(bitmap:Bitmap,wi:Int,he:Int):Bitmap{
+
+    val width = bitmap.width
+    val height = bitmap.height
+    val isCorrectShape = (width == wi && height == he)
+
+    // 640×640の大きさにリサイズ
+    if(isCorrectShape){
+        println("幅＝$width、高さ＝$height")
+        println("リサイズしません")
+        //640×640ならそのまま返却
+        return bitmap
+    }
+    else{
+        println("幅=$wi x 高さ=$he にリサイズ")
+        return Bitmap.createScaledBitmap(bitmap, wi, he, true)
+    }
+}
+// Bitmapを引数で受け取った大きさに変換する関数E----------------------------------------------------------
+
 
 // Bitmapクラスを画像フォーマットのbitmapに変換する関数S--------------------------------------------------
 fun bitmapToByteArray(bitmap: Bitmap):ByteArray {
@@ -116,3 +139,21 @@ fun bitmapToBase64(bitmap: Bitmap):String {
     return  base64String
 }
 // BitmapデータからBase64へ変換する関数S------------------------------------------------------
+
+// Bitmapを90度右回転する関数S-------------------------------------------------------------------
+fun spin90Bitmap_light(bitmap: Bitmap): Bitmap{
+
+    println("回転")
+
+    // Matrixオブジェクトを作成して90度回転を設定
+    val matrix = Matrix()
+    matrix.postRotate(90f)
+
+    // 新しいbitmapに変換
+    val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, false)
+
+
+    return rotatedBitmap
+
+}
+// Bitmapを90度右回転する関数E-------------------------------------------------------------------
