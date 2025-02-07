@@ -248,6 +248,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// フォトピッカーで選択した画像のuriを取得S----------------------------------------------------
 @Composable
 fun content(
     onNothingSelected: () -> Unit
@@ -272,7 +273,9 @@ fun content(
     }
     return pickedImageUri
 }
+// フォトピッカーで選択した画像のuriを取得E----------------------------------------------------
 
+// シェアトグルボタンを配置S--------------------------------------------------------
 @Composable
 fun shareSwitch(): Boolean {
     val checkedState = remember { mutableStateOf(false) }
@@ -303,9 +306,9 @@ fun shareSwitch(): Boolean {
 
     return checkedState.value // Switchの状態を返す
 }
+// シェアトグルボタンを配置E--------------------------------------------------------
 
-
-
+// bitmapを表示S----------------------------------------------------------------
 @Composable
 fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
 
@@ -382,6 +385,7 @@ fun BitmapImagePreview(bitmap: Bitmap?,context: Context):Bitmap? {
 
     return bitmap
 }
+// bitmapを表示E----------------------------------------------------------------
 
 //@Composable
 //fun NumberInputScreen() {
